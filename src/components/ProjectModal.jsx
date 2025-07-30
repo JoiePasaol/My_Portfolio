@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import { Badge } from "./ui/Badge";
 
 const ProjectModal = ({ project, onClose }) => {
@@ -38,7 +38,16 @@ const ProjectModal = ({ project, onClose }) => {
             </h2>
             <p className="text-muted-foreground">{project.subtitle}</p>
           </div>
+            {/* Close Button */}
+        <button
+          onClick={onClose}
+          className="text-muted-foreground hover:text-foreground transition cursor-pointer"
+        >
+          <X className="w-6 h-6" />
+        </button>
         </div>
+
+      
 
         <div className="flex flex-col lg:flex-row">
           {/* Image Carousel */}
@@ -67,7 +76,6 @@ const ProjectModal = ({ project, onClose }) => {
                   </button>
                 </>
               )}
-              
 
               {/* Image Indicators */}
               {project.images.length > 1 && (
@@ -112,9 +120,9 @@ const ProjectModal = ({ project, onClose }) => {
           </div>
 
           {/* Project Details */}
-          <div className="lg:w-1/3 p-6 flex flex-col justify-between overflow-y-auto">
-            <div className="overflow-y-auto">
-              <p className="text-muted-foreground mb-6 leading-relaxed overflow-y-auto ">
+          <div className="lg:w-1/3 p-6 flex flex-col justify-between max-h-64 sm:max-h-none overflow-y-auto">
+            <div>
+              <p className="text-muted-foreground mb-6 leading-relaxed">
                 {project.desc}
               </p>
 
