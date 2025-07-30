@@ -55,7 +55,7 @@ const Home = () => {
       </div>
       <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-12 items-center min-h-[calc(100vh-5rem)] py-12">
-          <div className="space-y-8 pl-4">
+          <div className="space-y-8 px-4">
             <div className="space-y-4 ">
               <h1 className="text-4xl sm:text-5xl lg:text-5xl font-bold text-black  " data-aos-dely="600" data-aos="fade-down">
                 {homeData.title}
