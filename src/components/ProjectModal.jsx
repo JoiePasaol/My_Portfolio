@@ -112,7 +112,7 @@ const ProjectModal = ({ project, onClose }) => {
           </div>
 
           {/* Project Details */}
-          <div className="lg:w-1/3 p-6 flex flex-col justify-between">
+          <div className="lg:w-1/3 p-6 flex flex-col justify-between overflow-y-auto">
             <div>
               <p className="text-muted-foreground mb-6 leading-relaxed">
                 {project.desc}
