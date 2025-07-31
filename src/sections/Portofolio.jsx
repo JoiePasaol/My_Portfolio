@@ -49,7 +49,7 @@ const Portfolio = () => {
               className={`flex items-center gap-2 px-5 py-3 rounded-lg shadow-lg text-sm font-medium transition-all cursor-pointer ${
                 activeTab === tab.value
                   ? "bg-black text-white"
-                  : "text-black border border-black"
+                  : "text-black border border-black hover:bg-black hover:text-white"
               }`}
             >
               <i className={tab.icon}></i>
