@@ -48,7 +48,7 @@ const Portfolio = () => {
               onClick={() => setActiveTab(tab.value)}
               className={`flex items-center gap-2 px-5 py-3 rounded-lg shadow-lg text-sm font-medium transition-all cursor-pointer ${
                 activeTab === tab.value
-                  ? "bg-black text-white"
+                  ? "bg-black text-white hover:bg-black hover:text-white"
                   : "text-black border border-black hover:bg-black hover:text-white"
               }`}
             >
