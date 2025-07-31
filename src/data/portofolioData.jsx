@@ -258,6 +258,13 @@ export const portfolioData = {
       },
 
       {
+        id: 22,
+        icon: "/assets/icon/gohighlevel.png",
+        label: "GoHighLevel",
+    
+      },
+
+      {
         id: 18,
         icon: "/assets/icon/photoshop.png",
         label: "Adobe Photoshop",
