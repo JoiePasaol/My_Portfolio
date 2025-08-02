@@ -66,7 +66,7 @@ export const portfolioData = {
       {
         id: 6,
         img: "/assets/project/Project5/a.png",
-        images: ["/assets/project/Project5/a.png", "/assets/project/Project5/b.png", "/assets/project/Project5/c.png", "/assets/project/Project5/d.png", "/assets/project/Project5/e.png", "/assets/project/Project5/f.png"],
+        images: ["/assets/project/Project5/a.png", "/assets/project/Project5/b.png", "/assets/project/Project5/c.png", "/assets/project/Project5/d.png", "/assets/project/Project5/e.png", "/assets/project/Project5/f.jpg"],
         title: "Digital Diary",
         subtitle: "A Personal Note-Keeping App for Practicing CRUD Operationsnt",
         desc: "The Digital Diary project is a simple yet functional web application designed to help users create, read, update, and delete personal notes or daily entries. Built as a learning platform for mastering CRUD operations, this project allows users to manage their thoughts, ideas, and experiences in a structured and interactive interface. It provides hands-on experience in handling data storage, form processing, and dynamic content updates laying the foundation for more advanced web development tasks.",
