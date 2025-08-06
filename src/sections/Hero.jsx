@@ -104,41 +104,22 @@ const Home = () => {
             <div className="flex flex-col sm:flex-row gap-4" data-aos-delay="600" data-aos="fade-down">
               {homeData.buttons.map((btn, index) => (
                 <Tippy content={btn.label} key={index} placement="top">
-                  {btn.href && btn.href !== "#" ? (
-                    <a
-                      href={btn.href}
-                      download={btn.download ? true : undefined}
-                      className={`inline-flex items-center justify-center px-6 py-3 font-semibold rounded-lg transition-all duration-300 shadow-lg hover:text-white hover:bg-black hover:shadow-xl hover:-translate-y-1 ${btn.type === "primary"
-                        ? "bg-black text-white "
-                        : "border-2 border-black  text-black "
-                        }`}
-                      target={btn.href.startsWith("http") ? "_blank" : "_self"}
-                      rel="noopener noreferrer"
-                    >
-                      <i className={`bx ${btn.type === "primary" ? "bx-download" : "bx-envelope"} mr-2`} />
-                      {btn.label}
-                    </a>
-                  ) : (
-                    <button
-                      onClick={() =>
-                        Swal.fire({
-                          title: "Not Available Yet 😅",
-                          text: "This feature or file is not ready yet. Please check back later!",
-                          icon: "info",
-                          confirmButtonColor: "#1F2937",
-                          confirmButtonText: "Alright",
-                        })
-                      }
-                      className={`inline-flex items-center justify-center px-6 py-3 font-semibold rounded-lg transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-1 ${btn.type === "primary"
-                        ? "bg-black  text-white hover:bg-white hover:border-2 hover:border-black hover:text-black hover:bg-gray-800 cursor-pointer "
-                        : "border-2 border-black text-black hover:bg-black hover:text-white cursor-pointer"
-                        }`}
-                      aria-label={btn.label}
-                    >
-                      <i className={`bx ${btn.type === "primary" ? "bx-download" : "bx-envelope"} mr-2`} />
-                      {btn.label}
-                    </button>
-                  )}
+               {btn.href && btn.href !== "#" && (
+  <a
+    href={btn.href}
+    download={btn.download ? true : undefined}
+    className={`inline-flex items-center justify-center px-6 py-3 font-semibold rounded-lg transition-all duration-300 shadow-lg hover:text-white hover:bg-black hover:shadow-xl hover:-translate-y-1 ${btn.type === "primary"
+      ? "bg-black text-white "
+      : "border-2 border-black  text-black "
+      }`}
+    target={btn.href.startsWith("http") ? "_blank" : "_self"}
+    rel="noopener noreferrer"
+  >
+    <i className={`bx ${btn.type === "primary" ? "bx-download" : "bx-envelope"} mr-2`} />
+    {btn.label}
+  </a>
+)}
+
                 </Tippy>
 
               ))}
