@@ -2,13 +2,79 @@ import aboutData from "../data/aboutData.jsx";
 import Tippy from "@tippyjs/react";
 import Swal from "sweetalert2";
 import ScrollVelocity from "../components/ScrollVelocity.jsx";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const About = () => {
   const resumeButtonClasses = `inline-flex items-center justify-center px-6 py-3 font-semibold rounded-lg shadow-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-1 
     bg-transparent border-2 border-black text-black hover:text-white hover:bg-black cursor-pointer`;
 
-  const [selectedImage, setSelectedImage] = useState(null);
+    const [selectedImageIndex, setSelectedImageIndex] = useState(null);
+    const [isMobile, setIsMobile] = useState(false);
+    const images = aboutData.galleryImages;
+  
+    // Handle resizing to detect mobile/tablet
+    useEffect(() => {
+      const handleResize = () => {
+        setIsMobile(window.innerWidth <= 768);
+      };
+      handleResize();
+      window.addEventListener("resize", handleResize);
+      return () => window.removeEventListener("resize", handleResize);
+    }, []);
+  
+    // Keyboard navigation
+    useEffect(() => {
+      const handleKeyDown = (e) => {
+        if (selectedImageIndex !== null) {
+          if (e.key === "ArrowRight") {
+            setSelectedImageIndex((prev) => (prev + 1) % images.length);
+          } else if (e.key === "ArrowLeft") {
+            setSelectedImageIndex((prev) => (prev - 1 + images.length) % images.length);
+          } else if (e.key === "Escape") {
+            setSelectedImageIndex(null);
+          }
+        }
+      };
+      window.addEventListener("keydown", handleKeyDown);
+      return () => window.removeEventListener("keydown", handleKeyDown);
+    }, [selectedImageIndex, images.length]);
+  
+    // Swipe navigation for mobile
+    useEffect(() => {
+      if (!isMobile || selectedImageIndex === null) return;
+  
+      let touchStartX = 0;
+      let touchEndX = 0;
+  
+      const handleTouchStart = (e) => {
+        touchStartX = e.touches[0].clientX;
+      };
+  
+      const handleTouchMove = (e) => {
+        touchEndX = e.touches[0].clientX;
+      };
+  
+      const handleTouchEnd = () => {
+        if (touchStartX - touchEndX > 50) {
+          // Swipe left → next image
+          setSelectedImageIndex((prev) => (prev + 1) % images.length);
+        } else if (touchEndX - touchStartX > 50) {
+          // Swipe right → previous image
+          setSelectedImageIndex((prev) => (prev - 1 + images.length) % images.length);
+        }
+      };
+  
+      window.addEventListener("touchstart", handleTouchStart);
+      window.addEventListener("touchmove", handleTouchMove);
+      window.addEventListener("touchend", handleTouchEnd);
+  
+      return () => {
+        window.removeEventListener("touchstart", handleTouchStart);
+        window.removeEventListener("touchmove", handleTouchMove);
+        window.removeEventListener("touchend", handleTouchEnd);
+      };
+    }, [isMobile, selectedImageIndex, images.length]);
+  
 
   return (
     <section id="about" className="min-h-screen bg-white overflow-hidden">
@@ -215,49 +281,79 @@ const About = () => {
             </div>
           ))}
 
-          {/* 3-column image grid */}
+<div>
+      {/* Gallery Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+        {images.map((path, i) => {
+          let aosType = "fade-down";
+          if (i % 3 === 0) aosType = "fade-right";
+          else if (i % 3 === 1) aosType = "fade-down";
+          else if (i % 3 === 2) aosType = "fade-left";
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-            {aboutData.galleryImages.map((path, i) => {
-              let aosType = "fade-down";
-              if (i % 3 === 0) aosType = "fade-right";
-              else if (i % 3 === 1) aosType = "fade-down";
-              else if (i % 3 === 2) aosType = "fade-left";
-
-              return (
-                <div
-                  key={i}
-                  data-aos-delay="600"
-                  data-aos={aosType}
-                  className="w-full h-full overflow-hidden rounded-xl border-8 border-black shadow-lg transition-transform duration-300 hover:-translate-y-2 hover:shadow-3xl filter grayscale hover:grayscale-0 cursor-pointer"
-                  onClick={() => setSelectedImage(path)}
-                >
-                  <img
-                    src={path}
-                    alt={`Experience ${i + 1}`}
-                    className="w-full h-64 object-cover"
-                  />
-                </div>
-              );
-            })}
-          </div>
-          {selectedImage && (
+          return (
             <div
-              className="fixed inset-0 bg-[rgba(0,0,0,0.8)] flex items-center justify-center z-50 fade-in"
-              onClick={() => setSelectedImage(null)}
+              key={i}
+              data-aos-delay="600"
+              data-aos={aosType}
+              className="w-full h-full overflow-hidden rounded-xl border-8 border-black shadow-lg transition-transform duration-300 hover:-translate-y-2 hover:shadow-3xl filter grayscale hover:grayscale-0 cursor-pointer"
+              onClick={() => setSelectedImageIndex(i)}
             >
-              <div
-                className="relative max-w-3xl w-full p-4 fade-out"
-                onClick={(e) => e.stopPropagation()}
-              >
-                <img
-                  src={selectedImage}
-                  alt="Enlarged Experience"
-                  className="w-full h-auto rounded-xl border-8 border-black shadow-2xl"
-                />
-              </div>
+              <img
+                src={path}
+                alt={`Experience ${i + 1}`}
+                className="w-full h-64 object-cover"
+              />
             </div>
-          )}
+          );
+        })}
+      </div>
+
+      {/* Enlarged Image Modal */}
+      {selectedImageIndex !== null && (
+        <div
+          className="fixed inset-0 bg-[rgba(0,0,0,0.8)] flex items-center justify-center z-50"
+          onClick={() => setSelectedImageIndex(null)}
+        >
+          <div
+            className="relative max-w-3xl w-full p-4"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Arrows (hidden on mobile) */}
+            {!isMobile && (
+              <>
+                <button
+                  onClick={() =>
+                    setSelectedImageIndex(
+                      (prev) => (prev - 1 + images.length) % images.length
+                    )
+                  }
+                  className="absolute left-[-60px] top-1/2 transform -translate-y-1/2 text-white text-4xl hover:text-gray-300"
+                >
+                  <i className="fas fa-chevron-left cursor-pointer"></i>
+                </button>
+                <button
+                  onClick={() =>
+                    setSelectedImageIndex(
+                      (prev) => (prev + 1) % images.length
+                    )
+                  }
+                  className="absolute right-[-60px] top-1/2 transform -translate-y-1/2 text-white text-4xl hover:text-gray-300"
+                >
+                  <i className="fas fa-chevron-right  cursor-pointer"></i>
+                </button>
+              </>
+            )}
+
+            {/* Enlarged Image */}
+            <img
+              src={images[selectedImageIndex]}
+              alt="Enlarged Experience"
+              className="w-full h-auto rounded-xl border-8 border-black shadow-2xl"
+            />
+          </div>
+        </div>
+      )}
+    </div>
         </div>
       </div>
     </section>
