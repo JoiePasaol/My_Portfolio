@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { portfolioData } from "../data/portofolioData.jsx";
 import "tippy.js/dist/tippy.css";
 import ProjectModal from "../components/ProjectModal";
@@ -8,8 +8,76 @@ import { Button } from "../components/ui/Button";
 
 const Portfolio = () => {
   const [activeTab, setActiveTab] = useState("projects");
-  const [selectedCertificate, setSelectedCertificate] = useState(null);
   const [selectedProject, setSelectedProject] = useState(null);
+
+  const [selectedCertIndex, setSelectedCertIndex] = useState(null);
+  const [isMobile, setIsMobile] = useState(false);
+  const certificates = portfolioData.tabs.certificates;
+
+  // Detect mobile/tablet
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  // Keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (selectedCertIndex !== null) {
+        if (e.key === "ArrowRight") {
+          setSelectedCertIndex((prev) => (prev + 1) % certificates.length);
+        } else if (e.key === "ArrowLeft") {
+          setSelectedCertIndex(
+            (prev) => (prev - 1 + certificates.length) % certificates.length
+          );
+        } else if (e.key === "Escape") {
+          setSelectedCertIndex(null);
+        }
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [selectedCertIndex, certificates.length]);
+
+  // Swipe gestures for mobile
+  useEffect(() => {
+    if (!isMobile || selectedCertIndex === null) return;
+
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    const handleTouchStart = (e) => {
+      touchStartX = e.touches[0].clientX;
+    };
+
+    const handleTouchMove = (e) => {
+      touchEndX = e.touches[0].clientX;
+    };
+
+    const handleTouchEnd = () => {
+      if (touchStartX - touchEndX > 50) {
+        setSelectedCertIndex((prev) => (prev + 1) % certificates.length);
+      } else if (touchEndX - touchStartX > 50) {
+        setSelectedCertIndex(
+          (prev) => (prev - 1 + certificates.length) % certificates.length
+        );
+      }
+    };
+
+    window.addEventListener("touchstart", handleTouchStart);
+    window.addEventListener("touchmove", handleTouchMove);
+    window.addEventListener("touchend", handleTouchEnd);
+
+    return () => {
+      window.removeEventListener("touchstart", handleTouchStart);
+      window.removeEventListener("touchmove", handleTouchMove);
+      window.removeEventListener("touchend", handleTouchEnd);
+    };
+  }, [isMobile, selectedCertIndex, certificates.length]);
 
   return (
     <section id="portofolio" className="min-h-screen pb-20 bg-white pt-20 ">
@@ -46,10 +114,10 @@ const Portfolio = () => {
             <button
               key={tab.value}
               onClick={() => setActiveTab(tab.value)}
-              className={`flex items-center gap-2 px-5 py-3 rounded-lg shadow-lg text-sm font-medium transition-all cursor-pointer ${
+              className={`flex items-center gap-2 px-5 py-3 rounded-lg shadow-lg text-sm font-medium transition-all cursor-pointer hover:bg-black hover:text-white ${
                 activeTab === tab.value
-                  ? "bg-black text-white hover:bg-black hover:text-white"
-                  : "text-black border border-black "
+                  ? "bg-black text-white"
+                  : "text-black border border-black"
               }`}
             >
               <i className={tab.icon}></i>
@@ -105,47 +173,72 @@ const Portfolio = () => {
               ))}
             </div>
           )}
-          {/* Certificates Tab */}
-          {activeTab === "certificates" && (
+        {/* Certificates Tab */}
+      {activeTab === "certificates" && (
+        <div
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
+          data-aos-delay="600"
+          data-aos="fade-down"
+        >
+          {certificates.map((certificate, index) => (
             <div
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
-              data-aos-delay="600"
-              data-aos="fade-down"
+              key={certificate.id}
+              className="border border-black rounded-lg shadow-lg hover:-translate-y-1 transition-transform overflow-hidden cursor-pointer"
+              onClick={() => setSelectedCertIndex(index)}
             >
-              {portfolioData.tabs.certificates.map((certificate) => (
-                <div
-                  key={certificate.id}
-                  className="border border-black rounded-lg shadow-lg hover:-translate-y-1 transition-transform overflow-hidden cursor-pointer"
-                  onClick={() => setSelectedCertificate(certificate)}
-                >
-                  <img
-                    src={certificate.img}
-                    alt={certificate.title}
-                    className="w-full h-72 object-cover rounded-lg"
-                  />
-                </div>
-              ))}
+              <img
+                src={certificate.img}
+                alt={certificate.title}
+                className="w-full h-72 object-cover rounded-lg"
+              />
             </div>
-          )}
+          ))}
+        </div>
+      )}
 
-          {/* Modal with fade-in and zoom-in effect */}
-          {selectedCertificate && (
-            <div
-              className="fixed inset-0 bg-[rgba(0,0,0,0.8)] flex items-center justify-center z-50 fade-in"
-              onClick={() => setSelectedCertificate(null)}
-            >
-              <div
-                className="relative max-w-3xl w-full p-4 zoom-in"
-                onClick={(e) => e.stopPropagation()}
-              >
-                <img
-                  src={selectedCertificate.img}
-                  alt="Certificate"
-                  className="w-full h-auto rounded-lg border border-white shadow-2xl"
-                />
-              </div>
-            </div>
-          )}
+      {/* Modal */}
+      {selectedCertIndex !== null && (
+        <div
+          className="fixed inset-0 bg-[rgba(0,0,0,0.8)] flex items-center justify-center z-50 fade-in"
+          onClick={() => setSelectedCertIndex(null)}
+        >
+          <div
+            className="relative max-w-3xl w-full p-4 zoom-in"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Arrows (desktop only) */}
+            {!isMobile && (
+              <>
+                <button
+                  onClick={() =>
+                    setSelectedCertIndex(
+                      (prev) => (prev - 1 + certificates.length) % certificates.length
+                    )
+                  }
+                  className="absolute left-[-60px] top-1/2 transform -translate-y-1/2 text-white text-4xl hover:text-gray-300"
+                >
+                  <i className="fas fa-chevron-left"></i>
+                </button>
+                <button
+                  onClick={() =>
+                    setSelectedCertIndex((prev) => (prev + 1) % certificates.length)
+                  }
+                  className="absolute right-[-60px] top-1/2 transform -translate-y-1/2 text-white text-4xl hover:text-gray-300"
+                >
+                  <i className="fas fa-chevron-right"></i>
+                </button>
+              </>
+            )}
+
+            {/* Enlarged Certificate */}
+            <img
+              src={certificates[selectedCertIndex].img}
+              alt={certificates[selectedCertIndex].title}
+              className="w-full h-auto rounded-lg border border-white shadow-2xl"
+            />
+          </div>
+        </div>
+      )}
 
           {/* Tech Stack Tab */}
           {activeTab === "tech" && (
