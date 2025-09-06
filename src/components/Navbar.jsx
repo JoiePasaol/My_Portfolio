@@ -1,7 +1,7 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, memo } from "react";
 import navbarData from "../data/navbarData.jsx";
 
-const Navbar = () => {
+const Navbar = memo(() => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [activeId, setActiveId] = useState(null);
   
@@ -16,7 +16,10 @@ const Navbar = () => {
                     }
                 });
             },
-            { threshold: 0.6 }
+            { 
+                threshold: 0.6,
+                rootMargin: '-10% 0px -10% 0px'
+            }
         );
 
         navbarData.forEach((item) => {
@@ -39,14 +42,14 @@ const Navbar = () => {
         };
     }, [isMenuOpen]);
 
-    const toggleMenu = () => {
+    const toggleMenu = useCallback(() => {
         setIsMenuOpen(!isMenuOpen);
-    };
+    }, [isMenuOpen]);
 
-    const handleClick = (id) => {
+    const handleClick = useCallback((id) => {
         setActiveId(id);
         setIsMenuOpen(false);
-    };
+    }, []);
 
     return (
         <>
@@ -150,6 +153,8 @@ const Navbar = () => {
             </div>
         </>
     );
-};
+});
+
+Navbar.displayName = 'Navbar';
 
 export default Navbar;

@@ -1,11 +1,15 @@
+import { lazy, Suspense } from 'react';
 import Navbar from './components/Navbar';
-import Home from './sections/Hero';
-import About from './sections/About';
-import Footer from './components/Footer';
-import ScrollToTop from './components/ScrollToTop';
-import Contact from './sections/Contact';
-import Testimonials from './sections/Testimonial';
-import Portfolio from './sections/Portofolio';
+import LoadingSpinner from './components/LoadingSpinner';
+
+// Lazy load sections for better performance
+const Home = lazy(() => import('./sections/Hero'));
+const About = lazy(() => import('./sections/About'));
+const Portfolio = lazy(() => import('./sections/Portofolio'));
+const Testimonials = lazy(() => import('./sections/Testimonial'));
+const Contact = lazy(() => import('./sections/Contact'));
+const Footer = lazy(() => import('./components/Footer'));
+const ScrollToTop = lazy(() => import('./components/ScrollToTop'));
 
 
 function App() {
@@ -13,13 +17,15 @@ function App() {
   return (
     <>
       <Navbar />
-      <Home />
-      <About />
-      <Portfolio />
-      <Testimonials />
-      <Contact />
-      <Footer />
-      <ScrollToTop />
+      <Suspense fallback={<LoadingSpinner />}>
+        <Home />
+        <About />
+        <Portfolio />
+        <Testimonials />
+        <Contact />
+        <Footer />
+        <ScrollToTop />
+      </Suspense>
     </>
   )
 }

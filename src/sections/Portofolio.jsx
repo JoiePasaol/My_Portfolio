@@ -1,18 +1,25 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, memo, useMemo } from "react";
 import { portfolioData } from "../data/portofolioData.jsx";
 import "tippy.js/dist/tippy.css";
-import ProjectModal from "../components/ProjectModal";
+import { lazy, Suspense } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/Card";
 import { Badge } from "../components/ui/Badge";
 import { Button } from "../components/ui/Button";
+import LoadingSpinner from "../components/LoadingSpinner";
 
-const Portfolio = () => {
+// Lazy load the heavy ProjectModal component
+const ProjectModal = lazy(() => import("../components/ProjectModal"));
+
+const Portfolio = memo(() => {
   const [activeTab, setActiveTab] = useState("projects");
   const [selectedProject, setSelectedProject] = useState(null);
 
   const [selectedCertIndex, setSelectedCertIndex] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
-  const certificates = portfolioData.tabs.certificates;
+  
+  const certificates = useMemo(() => portfolioData.tabs.certificates, []);
+  const projects = useMemo(() => portfolioData.tabs.projects, []);
+  const techStacks = useMemo(() => portfolioData.tabs.techStacks, []);
 
   // Detect mobile/tablet
   useEffect(() => {
@@ -22,6 +29,26 @@ const Portfolio = () => {
     handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const handleTabChange = useCallback((tab) => {
+    setActiveTab(tab);
+  }, []);
+
+  const handleProjectSelect = useCallback((project) => {
+    setSelectedProject(project);
+  }, []);
+
+  const handleCertificateSelect = useCallback((index) => {
+    setSelectedCertIndex(index);
+  }, []);
+
+  const closeCertificateModal = useCallback(() => {
+    setSelectedCertIndex(null);
+  }, []);
+
+  const closeProjectModal = useCallback(() => {
+    setSelectedProject(null);
   }, []);
 
   // Keyboard navigation
@@ -35,13 +62,13 @@ const Portfolio = () => {
             (prev) => (prev - 1 + certificates.length) % certificates.length
           );
         } else if (e.key === "Escape") {
-          setSelectedCertIndex(null);
+          closeCertificateModal();
         }
       }
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [selectedCertIndex, certificates.length]);
+  }, [selectedCertIndex, certificates.length, closeCertificateModal]);
 
   // Swipe gestures for mobile
   useEffect(() => {
@@ -113,7 +140,7 @@ const Portfolio = () => {
           ].map((tab) => (
             <button
               key={tab.value}
-              onClick={() => setActiveTab(tab.value)}
+              onClick={() => handleTabChange(tab.value)}
               className={`flex items-center gap-2 px-5 py-3 rounded-lg shadow-lg text-sm font-medium transition-all cursor-pointer hover:bg-black hover:text-white ${
                 activeTab === tab.value
                   ? "bg-black text-white"
@@ -135,7 +162,7 @@ const Portfolio = () => {
               data-aos-delay="600"
               data-aos="fade-down"
             >
-              {portfolioData.tabs.projects.map((project) => (
+              {projects.map((project) => (
                 <Card
                   key={project.id}
                   className="group hover:-translate-y-1 transition-all duration-300 hover:shadow-lg"
@@ -145,6 +172,7 @@ const Portfolio = () => {
                       src={project.img}
                       alt={project.title}
                       className="w-full h-48 object-cover transition-transform duration-300 group-hover:scale-105"
+                      loading="lazy"
                     />
                   </div>
                   <CardHeader>
@@ -163,7 +191,7 @@ const Portfolio = () => {
                       ))}
                     </div>
                     <Button
-                      onClick={() => setSelectedProject(project)}
+                      onClick={() => handleProjectSelect(project)}
                       className="w-full"
                     >
                       <i className="fa-solid fa-expand text-white" />View
@@ -184,12 +212,13 @@ const Portfolio = () => {
             <div
               key={certificate.id}
               className="border border-black rounded-lg shadow-lg hover:-translate-y-1 transition-transform overflow-hidden cursor-pointer"
-              onClick={() => setSelectedCertIndex(index)}
+              onClick={() => handleCertificateSelect(index)}
             >
               <img
                 src={certificate.img}
                 alt={certificate.title}
                 className="w-full h-72 object-cover rounded-lg"
+                loading="lazy"
               />
             </div>
           ))}
@@ -200,7 +229,7 @@ const Portfolio = () => {
       {selectedCertIndex !== null && (
         <div
           className="fixed inset-0 bg-[rgba(0,0,0,0.8)] flex items-center justify-center z-50 fade-in"
-          onClick={() => setSelectedCertIndex(null)}
+          onClick={closeCertificateModal}
         >
           <div
             className="relative max-w-3xl w-full p-4 zoom-in"
@@ -235,6 +264,7 @@ const Portfolio = () => {
               src={certificates[selectedCertIndex].img}
               alt={certificates[selectedCertIndex].title}
               className="w-full h-auto rounded-lg border border-white shadow-2xl"
+              loading="lazy"
             />
           </div>
         </div>
@@ -247,7 +277,7 @@ const Portfolio = () => {
               data-aos-delay="600"
               data-aos="fade-down"
             >
-              {portfolioData.tabs.techStacks.map((tech) => (
+              {techStacks.map((tech) => (
                 <div
                   key={tech.id}
                   className="bg-transparent border border-black rounded-lg p-6 shadow-lg hover:-translate-y-1 transition-transform flex flex-col items-center justify-center gap-4"
@@ -257,6 +287,7 @@ const Portfolio = () => {
                       src={tech.icon}
                       alt={tech.label}
                       className="w-16 h-16"
+                      loading="lazy"
                     />
                   ) : (
                     <i
@@ -275,14 +306,18 @@ const Portfolio = () => {
         </div>
          {/* Project Modal */}
          {selectedProject && (
-          <ProjectModal
-            project={selectedProject}
-            onClose={() => setSelectedProject(null)}
-          />
+            <Suspense fallback={<LoadingSpinner />}>
+              <ProjectModal
+                project={selectedProject}
+                onClose={closeProjectModal}
+              />
+            </Suspense>
         )}
       </div>
     </section>
   );
-};
+});
+
+Portfolio.displayName = 'Portfolio';
 
 export default Portfolio;

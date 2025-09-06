@@ -39,6 +39,13 @@ const contactData = {
             icon: "bx bxl-linkedin-square",
             description: "Let’s connect professionally",
         },
+
+        {
+            label: "GitHub",
+            href: "https://github.com/JoiePasaol",
+            icon: "bx bxl-github",
+            description: "Check out my projects and contributions.",
+        },
       
     ],
 

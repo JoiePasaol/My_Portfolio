@@ -5,15 +5,35 @@
 
 html, body{
     scroll-behavior: smooth;
+    font-display: swap;
+}
+
+/* Optimize font loading */
+@font-face {
+  font-family: 'system-ui';
+  font-display: swap;
 }
 
 .scrollbar-hide {
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;     /* Firefox */
+  -ms-overflow-style: none;  
+  scrollbar-width: none;    
 }
 
 .scrollbar-hide::-webkit-scrollbar {
-  display: none;             /* Chrome, Safari, Opera */
+  display: none;           
+}
+
+/* Optimize animations with will-change */
+.animate-spin {
+  will-change: transform;
+}
+
+.hover\:scale-105:hover {
+  will-change: transform;
+}
+
+.hover\:-translate-y-1:hover {
+  will-change: transform;
 }
 
 /* Global CSS - custom animations */
@@ -50,3 +70,13 @@ html, body{
               0 -2px 20px -2px rgba(0, 0, 0, 0.1);
 }
 
+/* Optimize image loading */
+img {
+  content-visibility: auto;
+}
+
+/* Optimize large content blocks */
+.content-visibility-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: 1000px;
+}

@@ -1,17 +1,20 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, memo, useMemo } from "react";
 import homeData from "../data/homeData.jsx";
 import Tippy from '@tippyjs/react';
-import Swal from 'sweetalert2';
-import Lanyard from '../components/Lanyard.jsx';
+import { lazy, Suspense } from 'react';
 
-const Home = () => {
+// Lazy load the Lanyard component as it's heavy with 3D graphics
+const Lanyard = lazy(() => import('../components/Lanyard.jsx'));
+
+const Home = memo(() => {
   const [currentText, setCurrentText] = useState("");
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
   const [showCursor, setShowCursor] = useState(true);
 
+  const titles = useMemo(() => homeData.typingTexts, []);
+
   useEffect(() => {
-    const titles = homeData.typingTexts;
     const currentTitle = titles[currentIndex];
 
     const typeSpeed = isDeleting ? 100 : 150;
@@ -35,7 +38,7 @@ const Home = () => {
     }, typeSpeed);
 
     return () => clearTimeout(timer);
-  }, [currentText, currentIndex, isDeleting]);
+  }, [currentText, currentIndex, isDeleting, titles]);
 
   useEffect(() => {
     const cursorTimer = setInterval(() => {
@@ -51,7 +54,9 @@ const Home = () => {
       className="min-h-screen bg-white pt-18 overflow-hidden" data-aos-duration="1000" data-aos="fade-down"
     >
       <div className="hidden md:block absolute w-full">
-      <Lanyard position={[0, 0, 14]} gravity={[0, -40, 0]} />
+        <Suspense fallback={<div className="w-full h-screen" />}>
+          <Lanyard position={[0, 0, 14]} gravity={[0, -40, 0]} />
+        </Suspense>
       </div>
       <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-12 items-center min-h-[calc(100vh-5rem)] py-12">
@@ -165,6 +170,8 @@ const Home = () => {
       </div>
     </section>
   );
-};
+});
+
+Home.displayName = 'Home';
 
 export default Home;

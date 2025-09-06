@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, memo, useMemo } from "react";
 import { createClient } from "@supabase/supabase-js";
 import Swal from "sweetalert2";
 
@@ -8,7 +8,7 @@ const supabaseKey =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Ind0dnR2aWNndXN6bHRjb3ZpYXljIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTM3NzQzOTYsImV4cCI6MjA2OTM1MDM5Nn0.ifsJGLuBtTs8bE0TBstpK7o4qfJDh0nsCAG2fECoMAY";
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-const CustomModal = ({ isOpen, onClose, children }) => {
+const CustomModal = memo(({ isOpen, onClose, children }) => {
   if (!isOpen) return null;
 
   return (
@@ -32,9 +32,11 @@ const CustomModal = ({ isOpen, onClose, children }) => {
       </div>
     </div>
   );
-};
+});
 
-const Testimonials = () => {
+CustomModal.displayName = 'CustomModal';
+
+const Testimonials = memo(() => {
   const [testimonials, setTestimonials] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [formData, setFormData] = useState({
@@ -45,6 +47,9 @@ const Testimonials = () => {
   });
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const openModal = useCallback(() => setIsModalOpen(true), []);
+  const closeModal = useCallback(() => setIsModalOpen(false), []);
 
   // Fetch testimonials dari Supabase saat komponen mount
   useEffect(() => {
@@ -63,7 +68,7 @@ const Testimonials = () => {
   }, []);
 
   // Handle form input changes
-  const handleInputChange = (e) => {
+  const handleInputChange = useCallback((e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
@@ -76,10 +81,10 @@ const Testimonials = () => {
         [name]: "",
       }));
     }
-  };
+  }, [errors]);
 
   // Validate form
-  const validateForm = () => {
+  const validateForm = useCallback(() => {
     const newErrors = {};
 
     if (!formData.name.trim()) {
@@ -104,10 +109,10 @@ const Testimonials = () => {
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
-  };
+  }, [formData]);
 
   // Handle form submission
-  const handleSubmit = async () => {
+  const handleSubmit = useCallback(async () => {
     if (!validateForm()) {
       return;
     }
@@ -153,7 +158,7 @@ const Testimonials = () => {
     setTestimonials(data || []);
 
     setFormData({ name: "", email: "", content: "", position: "" });
-    setIsModalOpen(false);
+    closeModal();
     setIsSubmitting(false);
 
     // Show success message
@@ -168,10 +173,10 @@ const Testimonials = () => {
         content: "dark:text-white",
       },
     });
-  };
+  }, [validateForm, formData, closeModal]);
 
   // Render stars
-  const renderStars = (rating) => {
+  const renderStars = useCallback((rating) => {
     return [...Array(5)].map((_, index) => (
       <i
         key={index}
@@ -180,7 +185,57 @@ const Testimonials = () => {
         }`}
       />
     ));
-  };
+  }, []);
+
+  const testimonialsList = useMemo(() => {
+    return testimonials.map((testimonial, index) => (
+      <div
+        key={testimonial.id}
+        className="bg-transparent shadow-lg border-1 border-black  rounded-lg p-4 transition-all duration-300"
+        style={{
+          animationDelay: `${index * 100}ms`,
+        }}
+      >
+        {/* Quote Icon */}
+        <div className="mb-2">
+          <i className="bx bxs-quote-alt-left text-2xl text-gray-300 dark:text-gray-600" />
+        </div>
+
+        {/* Content */}
+        <p className="text-black  mb-4 leading-relaxed text-sm">
+          {testimonial.content}
+        </p>
+
+        {/* Rating */}
+        <div className="flex items-center gap-1 mb-3">
+          {renderStars(testimonial.rating)}
+        </div>
+
+        {/* Author Info */}
+        <div className="flex items-center gap-3">
+          <img
+            src={testimonial.avatar}
+            alt={`Avatar of ${testimonial.name}`}
+            className="w-10 h-10 rounded-full shadow-lg object-cover ring-2 ring-black"
+            loading="lazy"
+            onError={(e) => {
+              e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                testimonial.name
+              )}&background=fff&color=000&size=48`;
+            }}
+          />
+          <div>
+            <h4 className="font-semibold text-black text-sm">
+              {testimonial.name}
+            </h4>
+            <p className="text-xs textblack">
+              {testimonial.position}
+            </p>
+          </div>
+        </div>
+      </div>
+    ));
+  }, [testimonials, renderStars]);
 
   return (
     <section
@@ -216,7 +271,7 @@ const Testimonials = () => {
             </h3>
 
             <button
-              onClick={() => setIsModalOpen(true)}
+              onClick={openModal}
               className="cursor-pointer px-6 py-2 ml-3 text-white bg-black rounded-md brounded-lg font-medium  flex items-center gap-2 transition-all duration-300 transform hover:-translate-y-0.5 hover:shadow-lg"
               aria-label="Add a new testimonial"
             >
@@ -229,52 +284,7 @@ const Testimonials = () => {
           <div className="max-h-[500px] overflow-y-auto scrollbar-hide p-6">
             {testimonials.length > 0 ? (
               <div className="space-y-6">
-                {testimonials.map((testimonial, index) => (
-                  <div
-                    key={testimonial.id}
-                    className="bg-transparent shadow-lg border-1 border-black  rounded-lg p-4 transition-all duration-300"
-                    style={{
-                      animationDelay: `${index * 100}ms`,
-                    }}
-                  >
-                    {/* Quote Icon */}
-                    <div className="mb-2">
-                      <i className="bx bxs-quote-alt-left text-2xl text-gray-300 dark:text-gray-600" />
-                    </div>
-
-                    {/* Content */}
-                    <p className="text-black  mb-4 leading-relaxed text-sm">
-                      {testimonial.content}
-                    </p>
-
-                    {/* Rating */}
-                    <div className="flex items-center gap-1 mb-3">
-                      {renderStars(testimonial.rating)}
-                    </div>
-
-                    {/* Author Info */}
-                    <div className="flex items-center gap-3">
-                      <img
-                        src={testimonial.avatar}
-                        alt={`Avatar of ${testimonial.name}`}
-                        className="w-10 h-10 rounded-full shadow-lg object-cover ring-2 ring-black"
-                        onError={(e) => {
-                          e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(
-                            testimonial.name
-                          )}&background=fff&color=000&size=48`;
-                        }}
-                      />
-                      <div>
-                        <h4 className="font-semibold text-black text-sm">
-                          {testimonial.name}
-                        </h4>
-                        <p className="text-xs textblack">
-                          {testimonial.position}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
+                {testimonialsList}
               </div>
             ) : (
               <div className="text-center py-12">
@@ -293,7 +303,7 @@ const Testimonials = () => {
       </div>
 
       {/* Custom Modal */}
-      <CustomModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+      <CustomModal isOpen={isModalOpen} onClose={closeModal}>
         <div className="p-6 sm:p-8">
           <div className="text-center mb-8">
             <div className="w-12 h-12 bg-gray-800 dark:bg-white rounded-full flex items-center justify-center mx-auto mb-4">
@@ -454,6 +464,8 @@ const Testimonials = () => {
       </CustomModal>
     </section>
   );
-};
+});
+
+Testimonials.displayName = 'Testimonials';
 
 export default Testimonials;

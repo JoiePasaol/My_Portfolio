@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback, memo } from "react";
 
-const ScrollToTop = () => {
+const ScrollToTop = memo(() => {
     const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
@@ -12,9 +12,9 @@ const ScrollToTop = () => {
         return () => window.removeEventListener("scroll", toggleVisibility);
     }, []);
 
-    const scrollToTop = () => {
+    const scrollToTop = useCallback(() => {
         window.scrollTo({ top: 0, behavior: "smooth" });
-    };
+    }, []);
 
     return (
         isVisible && (
@@ -28,6 +28,8 @@ const ScrollToTop = () => {
 
         )
     );
-};
+});
+
+ScrollToTop.displayName = 'ScrollToTop';
 
 export default ScrollToTop;

@@ -1,25 +1,51 @@
-import { useState } from "react";
+import { useState, useCallback, memo, useMemo, useEffect } from "react";
 import { ChevronLeft, ChevronRight, X } from "lucide-react";
 import { Badge } from "./ui/Badge";
 
-const ProjectModal = ({ project, onClose }) => {
+const ProjectModal = memo(({ project, onClose }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  const nextImage = () => {
+  const nextImage = useCallback(() => {
     setCurrentImageIndex((prev) =>
       prev === project.images.length - 1 ? 0 : prev + 1
     );
-  };
+  }, [project.images.length]);
 
-  const prevImage = () => {
+  const prevImage = useCallback(() => {
     setCurrentImageIndex((prev) =>
       prev === 0 ? project.images.length - 1 : prev - 1
     );
-  };
+  }, [project.images.length]);
 
-  const goToImage = (index) => {
+  const goToImage = useCallback((index) => {
     setCurrentImageIndex(index);
-  };
+  }, []);
+
+  const currentImage = useMemo(() => 
+    project.images[currentImageIndex], 
+    [project.images, currentImageIndex]
+  );
+
+  // Handle ESC key to close modal
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") {
+        onClose();
+      } else if (e.key === "ArrowLeft") {
+        prevImage();
+      } else if (e.key === "ArrowRight") {
+        nextImage();
+      }
+    };
+
+    // Add event listener when modal is mounted
+    window.addEventListener("keydown", handleKeyDown);
+
+    // Clean up event listener when modal is unmounted
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [onClose, prevImage, nextImage]);
 
   return (
     <div
@@ -27,51 +53,40 @@ const ProjectModal = ({ project, onClose }) => {
       onClick={onClose}
     >
       <div
-        className="bg-white rounded-lg max-w-5xl w-full max-h-[90vh] overflow-hidden shadow-2xl animate-scale-in"
+        className="bg-white rounded-lg max-w-5xl w-full max-h-[90vh] overflow-hidden shadow-2xl animate-scale-in flex flex-col"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="flex items-center justify-between p-6 border-b border-border">
+        <div className="flex items-center justify-between p-6 border-b border-border flex-shrink-0">
           <div>
             <h2 className="text-2xl font-bold text-foreground">
               {project.title}
             </h2>
             <p className="text-muted-foreground">{project.subtitle}</p>
           </div>
-            {/* Close Button */}
-        <button
-          onClick={onClose}
-          className="text-muted-foreground hover:text-foreground transition cursor-pointer"
-        >
-          <X className="w-6 h-6" />
-        </button>
+          {/* Close Button */}
+          <button
+            onClick={onClose}
+            className="text-muted-foreground hover:text-foreground transition cursor-pointer"
+          >
+            <X className="w-6 h-6" />
+          </button>
         </div>
 
-      
-
-        <div className="flex flex-col lg:flex-row">
+        <div className="flex flex-col lg:flex-row flex-1 min-h-0">
           {/* Image Carousel */}
-          <div className="lg:w-2/3 relative">
-            <div className="relative h-96 lg:h-[500px] overflow-hidden">
+          <div className="lg:w-2/3 relative flex flex-col">
+            <div className="relative h-64 sm:h-80 lg:h-96 xl:h-[400px] overflow-hidden flex-shrink-0">
               <img
-                src={project.images[currentImageIndex]}
+                src={currentImage}
                 alt={`${project.title} - Image ${currentImageIndex + 1}`}
                 className="w-full h-full object-contain transition-transform duration-300"
+                loading="lazy"
               />
 
               {/* Navigation Arrows */}
               {project.images.length > 1 && (
-                <div
-                  className="absolute inset-0"
-                  onKeyDown={(e) => {
-                    if (e.key === "ArrowLeft") {
-                      prevImage();
-                    } else if (e.key === "ArrowRight") {
-                      nextImage();
-                    }
-                  }}
-                  tabIndex={-1}
-                >
+                <div className="absolute inset-0">
                   <button
                     className="absolute left-4 top-1/2 -translate-y-1/2 bg-white hover:bg-white text-black shadow-lg p-2 rounded-full cursor-pointer "
                     onClick={prevImage}
@@ -107,7 +122,7 @@ const ProjectModal = ({ project, onClose }) => {
 
             {/* Thumbnails */}
             {project.images.length > 1 && (
-              <div className="flex gap-2 p-4 overflow-x-auto">
+              <div className="flex gap-2 p-4 overflow-x-auto flex-shrink-0">
                 {project.images.map((image, index) => (
                   <button
                     key={index}
@@ -122,6 +137,7 @@ const ProjectModal = ({ project, onClose }) => {
                       src={image}
                       alt={`Thumbnail ${index + 1}`}
                       className="w-full h-full object-cover"
+                      loading="lazy"
                     />
                   </button>
                 ))}
@@ -130,22 +146,26 @@ const ProjectModal = ({ project, onClose }) => {
           </div>
 
           {/* Project Details */}
-          <div className="lg:w-1/3 p-6 flex flex-col justify-between max-h-64 sm:max-h-none overflow-y-auto">
-            <div>
-              <p className="text-muted-foreground mb-6 leading-relaxed">
-                {project.desc}
-              </p>
+          <div className="lg:w-1/3 flex flex-col min-h-0">
+            <div className="flex-1 p-6 overflow-y-auto">
+              <div className="space-y-6">
+                <div>
+                  <p className="text-muted-foreground leading-relaxed">
+                    {project.desc}
+                  </p>
+                </div>
 
-              <div className="mb-6">
-                <h3 className="text-sm font-semibold text-foreground mb-3">
-                  Technologies Used
-                </h3>
-                <div className="flex flex-wrap gap-2">
-                  {project.tags.map((tag, index) => (
-                    <Badge key={index} variant="default" size="sm">
-                      {tag}
-                    </Badge>
-                  ))}
+                <div>
+                  <h3 className="text-sm font-semibold text-foreground mb-3">
+                    Technologies Used
+                  </h3>
+                  <div className="flex flex-wrap gap-2">
+                    {project.tags.map((tag, index) => (
+                      <Badge key={index} variant="default" size="sm">
+                        {tag}
+                      </Badge>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
@@ -154,6 +174,8 @@ const ProjectModal = ({ project, onClose }) => {
       </div>
     </div>
   );
-};
+});
+
+ProjectModal.displayName = 'ProjectModal';
 
 export default ProjectModal;

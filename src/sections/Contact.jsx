@@ -1,13 +1,13 @@
-import { useRef } from "react";
+import { useRef, useCallback, memo } from "react";
 import contactData from "../data/contactData.jsx";
 import Tippy from '@tippyjs/react';
 import Swal from 'sweetalert2';
 import emailjs from '@emailjs/browser'; 
 
-const Contact = () => {
+const Contact = memo(() => {
   const formRef = useRef(null);
 
-  const sendEmail = (e) => {
+  const sendEmail = useCallback((e) => {
     e.preventDefault();
 
     emailjs
@@ -35,7 +35,7 @@ const Contact = () => {
         });
         console.error(error);
       });
-  };
+  }, []);
 
   return (
     <section id="contact" className="min-h-screen pb-20 bg-white pt-10 overflow-x-hidden">
@@ -122,6 +122,8 @@ const Contact = () => {
       </div>
     </section>
   );
-};
+});
+
+Contact.displayName = 'Contact';
 
 export default Contact;

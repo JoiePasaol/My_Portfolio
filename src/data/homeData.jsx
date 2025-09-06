@@ -43,6 +43,12 @@ const homeData = {
       platform: "LinkedIn",
       icon: "bx bxl-linkedin",
       href: "https://www.linkedin.com/in/joie-pasaol-617823319?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app"
+    },
+
+    {
+      platform: "GitHub",
+      icon: "bx bxl-github",
+      href: "https://github.com/JoiePasaol"
     }
   ],
 

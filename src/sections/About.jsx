@@ -1,16 +1,16 @@
+import { memo, useState, useEffect, useCallback, useMemo } from "react";
 import aboutData from "../data/aboutData.jsx";
 import Tippy from "@tippyjs/react";
 import Swal from "sweetalert2";
 import ScrollVelocity from "../components/ScrollVelocity.jsx";
-import { useState, useEffect } from "react";
 
-const About = () => {
+const About = memo(() => {
   const resumeButtonClasses = `inline-flex items-center justify-center px-6 py-3 font-semibold rounded-lg shadow-lg transition-all duration-300 hover:shadow-xl hover:-translate-y-1 
     bg-transparent border-2 border-black text-black hover:text-white hover:bg-black cursor-pointer`;
 
     const [selectedImageIndex, setSelectedImageIndex] = useState(null);
     const [isMobile, setIsMobile] = useState(false);
-    const images = aboutData.galleryImages;
+    const images = useMemo(() => aboutData.galleryImages, []);
   
     // Handle resizing to detect mobile/tablet
     useEffect(() => {
@@ -22,6 +22,14 @@ const About = () => {
       return () => window.removeEventListener("resize", handleResize);
     }, []);
   
+    const handleImageClick = useCallback((index) => {
+      setSelectedImageIndex(index);
+    }, []);
+
+    const closeModal = useCallback(() => {
+      setSelectedImageIndex(null);
+    }, []);
+
     // Keyboard navigation
     useEffect(() => {
       const handleKeyDown = (e) => {
@@ -31,13 +39,13 @@ const About = () => {
           } else if (e.key === "ArrowLeft") {
             setSelectedImageIndex((prev) => (prev - 1 + images.length) % images.length);
           } else if (e.key === "Escape") {
-            setSelectedImageIndex(null);
+            closeModal();
           }
         }
       };
       window.addEventListener("keydown", handleKeyDown);
       return () => window.removeEventListener("keydown", handleKeyDown);
-    }, [selectedImageIndex, images.length]);
+    }, [selectedImageIndex, images.length, closeModal]);
   
     // Swipe navigation for mobile
     useEffect(() => {
@@ -124,7 +132,6 @@ const About = () => {
               alt="About Me"
               className="w-full max-w-md rounded-xl shadow-lg object-cover 
              border-8 border-black
-             filter grayscale hover:grayscale-0
              hover:shadow-3xl hover:-translate-y-2 
              transition-all duration-300"
             />
@@ -295,13 +302,14 @@ const About = () => {
               key={i}
               data-aos-delay="600"
               data-aos={aosType}
-              className="w-full h-full overflow-hidden rounded-xl border-8 border-black shadow-lg transition-transform duration-300 hover:-translate-y-2 hover:shadow-3xl filter grayscale hover:grayscale-0 cursor-pointer"
-              onClick={() => setSelectedImageIndex(i)}
+              className="w-full h-full overflow-hidden rounded-xl border-8 border-black shadow-lg transition-transform duration-300 hover:-translate-y-2 hover:shadow-3xl cursor-pointer"
+              onClick={() => handleImageClick(i)}
             >
               <img
                 src={path}
                 alt={`Experience ${i + 1}`}
                 className="w-full h-64 object-cover"
+                loading="lazy"
               />
             </div>
           );
@@ -312,7 +320,7 @@ const About = () => {
       {selectedImageIndex !== null && (
         <div
           className="fixed inset-0 bg-[rgba(0,0,0,0.8)] flex items-center justify-center z-50"
-          onClick={() => setSelectedImageIndex(null)}
+          onClick={closeModal}
         >
           <div
             className="relative max-w-3xl w-full p-4"
@@ -349,6 +357,7 @@ const About = () => {
               src={images[selectedImageIndex]}
               alt="Enlarged Experience"
               className="w-full h-auto rounded-xl border-8 border-black shadow-2xl"
+              loading="lazy"
             />
           </div>
         </div>
@@ -358,6 +367,8 @@ const About = () => {
       </div>
     </section>
   );
-};
+});
+
+About.displayName = 'About';
 
 export default About;

@@ -1,4 +1,4 @@
-import * as React from "react";
+import { forwardRef, memo } from "react";
 import { Slot } from "@radix-ui/react-slot";
 import { cva } from "class-variance-authority";
 import { cn } from "../../lib/utils";
@@ -29,7 +29,7 @@ const buttonVariants = cva(
   }
 );
 
-const Button = React.forwardRef(
+const Button = memo(forwardRef(
   ({ className, variant, size, asChild = false, ...props }, ref) => {
     const Comp = asChild ? Slot : "button";
     return (
@@ -40,7 +40,7 @@ const Button = React.forwardRef(
       />
     );
   }
-);
+));
 
 Button.displayName = "Button";
 

@@ -18,7 +18,7 @@ export const portfolioData = {
         subtitle: "Smart Logging & Monitoring System via QR Code",
         desc: "SOS QR Work Tracker is an efficient work tracking system designed to streamline task logging and monitoring using QR technology. Through the mobile app, users can easily scan QR codes placed in specific rooms or areas to log their activities in real time. Meanwhile, the web-based admin panel empowers supervisors to generate QR codes, monitor user activity, and manage logs with ease. This dual-platform solution enhances transparency, accountability, and productivity in workplace environments.",      
         demo: "#",
-        tags: ["HTML", "CSS","TypeScript", "NodeJS", "Firebase", "Vite"],
+        tags: ["HTML", "CSS","TypeScript", "NodeJS", "Firebase", "GCP", "Vite", "Flutter", "Docker", "Git"],
       },
       {
         id: 2,
@@ -28,7 +28,18 @@ export const portfolioData = {
         subtitle: "Secure Event Entry & Guest Verification System.",
         desc: "Event QR Admission  is a digital event management solution designed to enhance security and streamline guest entry through QR code technology. Before entering the venue, guests present their unique QR codes, which are scanned by event personnel at the entrance. Upon scanning, the guest's profile and registration details are instantly displayed on a monitor for verification. This system ensures only registered individuals gain access while providing an efficient check-in experience. Additionally, early arriving guests are automatically tracked for raffle eligibility, promoting punctuality and engagement.",
         demo: "#",
-        tags: ["HTML", "CSS", "TypeScript", "NodeJS", "Firebase", "Vite"],
+        tags: ["HTML", "CSS", "TypeScript", "NodeJS", "Firebase", "GCP", "Vite", "Docker", "Git"],
+      },
+
+      {
+        id: 10,
+        img: "/assets/project/Project10/a.png",
+        images: ["/assets/project/Project10/a.png", "/assets/project/Project10/b.png", "/assets/project/Project10/c.png", "/assets/project/Project10/d.png", "/assets/project/Project10/e.png", "/assets/project/Project10/f.png", "/assets/project/Project10/g.png", "/assets/project/Project10/h.png", "/assets/project/Project10/i.png", "/assets/project/Project10/j.png", "/assets/project/Project10/k.png", "/assets/project/Project10/k.png", "/assets/project/Project10/l.png", "/assets/project/Project10/m.png", "/assets/project/Project10/n.png", "/assets/project/Project10/o.png", "/assets/project/Project10/p.png", "/assets/project/Project10/q.png", "/assets/project/Project10/r.png" ],
+        title: "Personal Client Management System",
+        subtitle: "Client Portal for Payment Tracking and Project Progress",
+        desc: "This Personal Client Management System streamlines client interactions by providing a dedicated portal where clients can view payment history, receive project updates, and track progress in real time. The platform enhances transparency and communication, allowing clients to stay informed and engaged throughout the project lifecycle.",
+        demo: "#",
+        tags: ["HTML", "CSS", "Tailwind", "Typescript", "NodeJS", "Supabase", "Vite", "Docker", "Git"],
       },
       {
         id: 3,
@@ -38,18 +49,18 @@ export const portfolioData = {
         subtitle: "Secure Online Election Platform for Efficient Voting Management",
         desc: "The Web-Based Voting System is a digital election platform designed to streamline the entire voting process for organizations, schools, and events. Admins are empowered to manage elections by creating voter profiles, assigning usernames and voter IDs, setting up positions (such as President, Secretary, etc.), defining maximum votes per position, and adding candidates under a specific election title. Voters can log in securely using their assigned credentials to cast their votes in a user-friendly interface. This system ensures transparency, data integrity, and convenience—making elections faster, safer, and more organized.",
         demo: "#",
-        tags: ["HTML", "CSS", "PHP", "Javascript", "Bootstrap", "MySQL"],
+        tags: ["HTML", "CSS", "PHP", "Javascript", "Bootstrap", "MySQL", "Docker", "Git"],
       },
 
       {
         id: 4,
         img: "/assets/project/Project3/a.png",
-        images: ["/assets/project/Project3/a.png", "/assets/project/Project3/b.png", "/assets/project/Project3/c.png", "/assets/project/Project3/d.png", "/assets/project/Project3/e.png", "/assets/project/Project3/f.png", "/assets/project/Project3/g.png", "/assets/project/Project3/h.png", "/assets/project/Project3/i.png", "/assets/project/Project3/j.png", "/assets/project/Project8/k.png",  "/assets/project/Project8/l.png" ],
+        images: ["/assets/project/Project3/a.png", "/assets/project/Project3/b.png", "/assets/project/Project3/c.png", "/assets/project/Project3/d.png", "/assets/project/Project3/e.png", "/assets/project/Project3/f.png", "/assets/project/Project3/g.png", "/assets/project/Project3/h.png", "/assets/project/Project3/i.png", "/assets/project/Project3/j.png", "/assets/project/Project3/k.png",  "/assets/project/Project3/l.png" ],
         title: "Web-Based Item Inventory System",
         subtitle: "Track, Manage, and Monitor Items with Ease",
         desc: "The Item Inventory System is a management tool designed to streamline the tracking, storing, and organizing items. It allows personnel to add and categorize items, monitor stock levels in real time, and manage incoming and outgoing inventory with accuracy. With features for quantity control, and item history logs, the system ensures efficient operations, reduces human error, and improves overall inventory visibility. Ideal for maintaining order, minimizing loss, and optimizing workflows.",
         demo: "#",
-        tags: ["HTML", "CSS", "Tailwind" , "Laravel", "React JS", "Inertia JS", "MySQL"],
+        tags: ["HTML", "CSS", "Tailwind" , "Laravel", "React JS", "Inertia JS", "MySQL", "Git", "XAMPP" ],
       },
 
       {
@@ -60,7 +71,7 @@ export const portfolioData = {
         subtitle: " Learning Input Validation, Regex, and Session Management",
         desc: "The Security Essentials Project is a foundational web application designed to explore and implement core security practices in web development. This project focuses on input validation to prevent malicious data entries and ensure data integrity, regular expressions (regex) to accurately filter and format user inputs, and session management to control user authentication and protect sensitive data. Through hands-on implementation, it helps learners understand common vulnerabilities and apply essential techniques for building secure and reliable applications.",
         demo: "#",
-        tags: ["HTML", "CSS", "Bootstrap" , "PHP", "Javascript", "MySQL"],
+        tags: ["HTML", "CSS", "Bootstrap" , "PHP", "Javascript", "MySQL", "XAMPP" , "Git"],
       },
 
       {
@@ -71,7 +82,7 @@ export const portfolioData = {
         subtitle: "A Personal Note-Keeping App for Practicing CRUD Operationsnt",
         desc: "The Digital Diary project is a simple yet functional web application designed to help users create, read, update, and delete personal notes or daily entries. Built as a learning platform for mastering CRUD operations, this project allows users to manage their thoughts, ideas, and experiences in a structured and interactive interface. It provides hands-on experience in handling data storage, form processing, and dynamic content updates laying the foundation for more advanced web development tasks.",
         demo: "#",
-        tags: ["HTML", "CSS", "Bootstrap" , "Javascript", "Blade", "Laravel", "MySQL"],
+        tags: ["HTML", "CSS", "Bootstrap" , "Javascript", "Blade", "Laravel", "MySQL", "XAMPP" , "Git"],
       },
       {
         id: 7,
@@ -81,7 +92,7 @@ export const portfolioData = {
         subtitle: "Learning Data Handling and User Session Control in Web Development",
         desc: "This project is designed to teach the fundamentals of web development through two essential features: CRUD operations and session management. Users can create, read, update, and delete records, simulating real-world data handling scenarios. In addition, the project implements session functionality to manage user authentication and maintain secure login states. It's a practical learning tool for understanding how web applications manage data and protect user sessions across multiple pages.",
         demo: "#",
-        tags: ["HTML", "CSS", "Bootstrap" , "Javascript", "Blade", "Laravel", "MySQL"],
+        tags: ["HTML", "CSS", "Bootstrap" , "Javascript", "Blade", "Laravel", "MySQL" , "XAMPP" , "Git"],
       },
       {
         id: 8,
