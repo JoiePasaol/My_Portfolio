@@ -13,7 +13,7 @@ const aboutData = {
     biodata: [
         { label: "Name", value: "Joie Pasaol", icon: "bx bx-id-card" },
         { label: "Date of Birth", value: "February 13, 2003", icon: "bx bx-calendar" },
-        { label: "Place of Birth", value: "Philippines, Cabadbaran", icon: "bx bx-map" },
+        { label: "Place of Birth", value: "Philippines, Agusan del Norte", "Magallanes", icon: "bx bx-map" },
         { label: "Email", value: "joie.pasaol13@gmail.com", icon: "bx bx-envelope" },
         { label: "Phone", value: "+63 981 117 1894", icon: "bx bx-phone" },
         { label: "Education", value: "Caraga State University Cabadbaran Campus", icon: "bx bx-book" },
