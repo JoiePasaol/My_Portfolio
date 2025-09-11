@@ -1,4 +1,4 @@
-import { lazy, Suspense } from 'react';
+import { lazy, Suspense, useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import LoadingSpinner from './components/LoadingSpinner';
 
@@ -11,8 +11,24 @@ const Contact = lazy(() => import('./sections/Contact'));
 const Footer = lazy(() => import('./components/Footer'));
 const ScrollToTop = lazy(() => import('./components/ScrollToTop'));
 
-
 function App() {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+   
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 3000);
+
+
+    return () => clearTimeout(timer);
+  }, []);
+
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
+
 
   return (
     <>
@@ -27,7 +43,7 @@ function App() {
         <ScrollToTop />
       </Suspense>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
