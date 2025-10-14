@@ -273,12 +273,7 @@ export const portfolioData = {
         color: "#0055FF",
       },
 
-      {
-        id: 22,
-        icon: "/assets/icon/gohighlevel.png",
-        label: "GoHighLevel",
-    
-      },
+     
 
       {
         id: 18,
