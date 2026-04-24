@@ -111,8 +111,10 @@ export const portfolioData = {
   images: ["/assets/project/Project9/a.png", "/assets/project/Project9/b.png", "/assets/project/Project9/c.png", "/assets/project/Project9/d.jpg", "/assets/project/Project9/e.jpg", "/assets/project/Project9/f.png", "/assets/project/Project9/g.jpg", "/assets/project/Project9/ui1.png", "/assets/project/Project9/ui2.png", "/assets/project/Project9/ui3.png", "/assets/project/Project9/ui4.png", "/assets/project/Project9/ui5.png", "/assets/project/Project9/ui6.png", "/assets/project/Project9/ux1.png", "/assets/project/Project9/ux2.png", "/assets/project/Project9/ux3.png", "/assets/project/Project9/ux4.png", "/assets/project/Project9/ux5.png", "/assets/project/Project9/ux6.png"],
   title: "Photoshop and Figma",
   subtitle: "UI/UX Design and Visual Prototyping Using Modern Design Tools",
-  desc: "This project showcases the use of Photoshop and Figma in creating visually appealing and user-friendly interface designs. It focuses on designing layouts, wireframes, and high-fidelity prototypes while applying design principles such as color theory, typography, and spacing. Through this project, the goal is to enhance creativity and practical skills in UI/UX design, transforming ideas into interactive and structured visual experiences."
-}
+  desc: "This project showcases the use of Photoshop and Figma in creating visually appealing and user-friendly interface designs. It focuses on designing layouts, wireframes, and high-fidelity prototypes while applying design principles such as color theory, typography, and spacing. Through this project, the goal is to enhance creativity and practical skills in UI/UX design, transforming ideas into interactive and structured visual experiences.",
+ demo: "#", 
+  tags: ["Figma", "Adobe Photoshop", "UI/UX Design"] 
+     }
 
      
     ],
