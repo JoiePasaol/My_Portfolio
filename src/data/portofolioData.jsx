@@ -113,8 +113,8 @@ export const portfolioData = {
   subtitle: "UI/UX Design and Visual Prototyping Using Modern Design Tools",
   desc: "This project showcases the use of Photoshop and Figma in creating visually appealing and user-friendly interface designs. It focuses on designing layouts, wireframes, and high-fidelity prototypes while applying design principles such as color theory, typography, and spacing. Through this project, the goal is to enhance creativity and practical skills in UI/UX design, transforming ideas into interactive and structured visual experiences.",
  demo: "#", 
-  tags: ["Figma", "Adobe Photoshop", "UI/UX Design"] 
-     }
+  tags: ["Figma", "Adobe Photoshop", "UI/UX Design"], 
+     },
 
      
     ],
