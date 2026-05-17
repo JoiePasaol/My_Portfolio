@@ -16,7 +16,7 @@ const homeData = {
       type: "primary",
     },
     {
-      label: "Download My CV",
+      label: "Download My Resume",
       href: "/assets/CV.pdf",
       type: "secondary",
       download: true,

@@ -21,7 +21,7 @@ const aboutData = {
     ],
 
     resume: {
-        label: "Download My CV",
+        label: "Download My Resume",
         href: "/assets/CV.pdf",
         icon: "bx bx-download",
         download: true,
