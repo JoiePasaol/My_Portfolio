@@ -3,8 +3,8 @@ import { createClient } from "@supabase/supabase-js";
 import Swal from "sweetalert2";
 
 // Inisialisasi Supabase client
-const supabaseUrl = "https://oltfyuyytszirisxiamc.supabase.co";
-const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9sdGZ5dXl5dHN6aXJpc3hpYW1jIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkwMTQ0NDUsImV4cCI6MjA5NDU5MDQ0NX0.W4aC12w122htSIVOx8tc4sahDdqVWPlUdZZELFTnzIo";
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+const supabaseKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 const CustomModal = memo(({ isOpen, onClose, children }) => {
