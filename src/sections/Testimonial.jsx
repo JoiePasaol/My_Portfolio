@@ -53,11 +53,9 @@ const StarRating = memo(({ rating, onRatingChange }) => {
           />
         </button>
       ))}
-      <span className="ml-2 text-sm text-gray-400">
-        {hovered || rating
-          ? ["", "Poor", "Fair", "Good", "Great", "Excellent"][hovered || rating]
-          : "Select rating"}
-      </span>
+ <span className="ml-2 text-sm text-gray-400">
+  {(hovered || rating) ? ["", "Poor", "Fair", "Good", "Great", "Excellent"][hovered || rating] : ""}
+</span>
     </div>
   );
 });
