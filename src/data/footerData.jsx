@@ -49,7 +49,7 @@ const footerData = {
     ],
 
 
-    copyright: "© 2025 Joie Pasaol. All rights reserved.",
+    copyright: `© ${new Date().getFullYear()} Joie Pasaol. All rights reserved.`,
 };
 
 export default footerData;
