@@ -44,7 +44,7 @@ const AIChatbot = memo(() => {
     try {
     
       setMessages((currentMessages) => {
-  \
+
         const historyMessages = currentMessages.slice(1).map((msg) => ({
           role: msg.role === "model" ? "assistant" : "user",
           content: msg.content,
