@@ -1,9 +1,11 @@
 import { useState, useRef, useEffect, memo, useCallback } from "react";
-
 import SYSTEM_PROMPT from "../data/chatbotData";
+import { BotMessageSquareIcon } from "./BotMessageSquareIcon";
+import { ArrowRight, X } from "lucide-react"; // Added X import
 
 const AIChatbot = memo(() => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
   const [messages, setMessages] = useState([
     {
       role: "model",
@@ -18,6 +20,16 @@ const AIChatbot = memo(() => {
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
+
+  // Handle open/close with animation
+  useEffect(() => {
+    if (isOpen) {
+      setIsVisible(true);
+    } else {
+      const timer = setTimeout(() => setIsVisible(false), 300);
+      return () => clearTimeout(timer);
+    }
+  }, [isOpen]);
 
   const sendMessage = useCallback(async () => {
     if (!input.trim() || isLoading) return;
@@ -35,24 +47,24 @@ const AIChatbot = memo(() => {
           parts: [{ text: msg.content }],
         }));
 
-   const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${import.meta.env.VITE_GROQ_API_KEY}`,
-            },
-            body: JSON.stringify({
-                model: "llama-3.1-8b-instant", // free
-                messages: [
-                { role: "system", content: SYSTEM_PROMPT },
-                ...history.map((msg) => ({
-                    role: msg.role === "model" ? "assistant" : "user",
-                    content: msg.content,
-                })),
-                { role: "user", content: userMessage.content },
-                ],
-            }),
-            });
+      const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${import.meta.env.VITE_GROQ_API_KEY}`,
+        },
+        body: JSON.stringify({
+          model: "llama-3.1-8b-instant",
+          messages: [
+            { role: "system", content: SYSTEM_PROMPT },
+            ...history.map((msg) => ({
+              role: msg.role === "model" ? "assistant" : "user",
+              content: msg.content,
+            })),
+            { role: "user", content: userMessage.content },
+          ],
+        }),
+      });
 
       const data = await response.json();
       const reply =
@@ -80,22 +92,25 @@ const AIChatbot = memo(() => {
     }
   };
 
+
+
   return (
     <>
-      {isOpen && (
-        <div className="fixed bottom-24 right-6 z-50 w-80 h-96 bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-gray-200">
+      {isVisible && (
+        <div
+          className={`fixed bottom-36 right-6 z-50 w-80 h-96 bg-white rounded-2xl shadow-2xl flex flex-col overflow-hidden border border-gray-200
+            transition-all duration-300 ease-out origin-bottom-right
+            ${isOpen
+              ? "opacity-100 scale-100 translate-y-0"
+              : "opacity-0 scale-95 translate-y-4 pointer-events-none"
+            }`}
+        >
           {/* Header */}
-          <div className="bg-black text-white px-4 py-3 flex items-center justify-between">
+          <div className="bg-black text-white px-4 py-3 flex items-center animate-slideDown">
             <div className="flex items-center gap-2">
               <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse" />
               <span className="text-sm font-semibold">Ask about Joie</span>
             </div>
-            <button
-              onClick={() => setIsOpen(false)}
-              className="text-gray-400 hover:text-white transition-colors text-lg leading-none"
-            >
-              ×
-            </button>
           </div>
 
           {/* Messages */}
@@ -103,7 +118,8 @@ const AIChatbot = memo(() => {
             {messages.map((msg, i) => (
               <div
                 key={i}
-                className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"}`}
+                className={`flex ${msg.role === "user" ? "justify-end" : "justify-start"} animate-messageIn`}
+                style={{ animationDelay: `${i * 0.05}s` }}
               >
                 <div
                   className={`max-w-[80%] px-3 py-2 rounded-2xl text-sm leading-relaxed ${
@@ -118,7 +134,7 @@ const AIChatbot = memo(() => {
             ))}
 
             {isLoading && (
-              <div className="flex justify-start">
+              <div className="flex justify-start animate-messageIn">
                 <div className="bg-white border border-gray-100 shadow-sm px-3 py-2 rounded-2xl rounded-bl-sm">
                   <div className="flex gap-1 items-center h-4">
                     {[0, 1, 2].map((i) => (
@@ -135,34 +151,56 @@ const AIChatbot = memo(() => {
             <div ref={messagesEndRef} />
           </div>
 
-          {/* Input */}
-          <div className="p-3 bg-white border-t border-gray-100 flex gap-2">
+          {/* Input with horizontal right arrow icon */}
+          <div className="p-3 bg-white border-t border-gray-100 flex gap-2 items-center animate-slideUp">
             <input
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
               placeholder="Ask about Joie..."
-              className="flex-1 text-sm px-3 py-2 rounded-full border border-gray-200 outline-none focus:border-black transition-colors"
+              className="flex-1 text-sm px-3 py-2 rounded-full border border-gray-200 outline-none focus:border-black transition-all duration-200 hover:border-gray-400 focus:scale-[1.02]"
             />
             <button
               onClick={sendMessage}
               disabled={!input.trim() || isLoading}
-              className="w-8 h-8 bg-black text-white rounded-full flex items-center justify-center disabled:opacity-40 transition-opacity hover:opacity-80"
+              className="w-8 h-8 bg-black text-white rounded-full flex items-center justify-center disabled:opacity-40 transition-all duration-200 hover:scale-110 active:scale-95"
             >
-              <i className="bx bx-send text-sm" />
+              <ArrowRight size={16} />
             </button>
           </div>
         </div>
       )}
 
-      {/* Toggle Button */}
+      {/* Toggle Button with rotating animation between robot and X */}
       <button
         onClick={() => setIsOpen((prev) => !prev)}
-        className="fixed bottom-21 right-6 z-50 w-12 h-12 flex items-center justify-center rounded-full bg-black text-white shadow-lg cursor-pointer transition-all hover:scale-105 drop-shadow-2xl"
+        className="fixed bottom-21 right-6 z-50 w-12 h-12 flex items-center justify-center rounded-full bg-black text-white shadow-lg cursor-pointer transition-all duration-300 hover:scale-110 active:scale-95 drop-shadow-2xl"
         aria-label="Toggle AI Chat"
       >
-        <i className={`bx ${isOpen ? "bx-x" : "bx-bot"} text-xl`} />
+        <div className="relative w-6 h-6">
+          {/* Robot Icon */}
+          <div
+            className={`absolute inset-0 transition-all duration-300 ease-out ${
+              isOpen
+                ? "opacity-0 scale-50 rotate-180"
+                : "opacity-100 scale-100 rotate-0"
+            }`}
+          >
+            <BotMessageSquareIcon size={24} />
+          </div>
+          
+          {/* X Icon */}
+          <div
+            className={`absolute inset-0 transition-all duration-300 ease-out ${
+              isOpen
+                ? "opacity-100 scale-100 rotate-0"
+                : "opacity-0 scale-50 -rotate-180"
+            }`}
+          >
+            <X size={24} />
+          </div>
+        </div>
       </button>
     </>
   );
