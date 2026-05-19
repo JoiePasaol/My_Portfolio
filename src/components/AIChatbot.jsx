@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect, memo, useCallback } from "react";
 import SYSTEM_PROMPT from "../data/chatbotData";
 import { BotMessageSquareIcon } from "./BotMessageSquareIcon";
-import { ArrowRight, X } from "lucide-react"; // Added X import
+import { ArrowRight, X } from "lucide-react";
 
 const AIChatbot = memo(() => {
   const [isOpen, setIsOpen] = useState(false);
@@ -21,7 +21,6 @@ const AIChatbot = memo(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
-  // Handle open/close with animation
   useEffect(() => {
     if (isOpen) {
       setIsVisible(true);
@@ -34,18 +33,96 @@ const AIChatbot = memo(() => {
   const sendMessage = useCallback(async () => {
     if (!input.trim() || isLoading) return;
 
-    const userMessage = { role: "user", content: input.trim() };
+    const userMessageContent = input.trim();
+    const userMessage = { role: "user", content: userMessageContent };
+    
+    // Update messages immediately with user message
     setMessages((prev) => [...prev, userMessage]);
     setInput("");
     setIsLoading(true);
 
     try {
-      const history = messages
-        .slice(1)
-        .map((msg) => ({
-          role: msg.role,
-          parts: [{ text: msg.content }],
+    
+      setMessages((currentMessages) => {
+  \
+        const historyMessages = currentMessages.slice(1).map((msg) => ({
+          role: msg.role === "model" ? "assistant" : "user",
+          content: msg.content,
         }));
+
+        // Make the API call with the history
+        const makeRequest = async () => {
+          try {
+            const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${import.meta.env.VITE_GROQ_API_KEY}`,
+              },
+              body: JSON.stringify({
+                model: "llama-3.1-8b-instant",
+                messages: [
+                  { role: "system", content: SYSTEM_PROMPT },
+                  ...historyMessages,
+                  { role: "user", content: userMessageContent },
+                ],
+              }),
+            });
+
+            const data = await response.json();
+            const reply =
+              data.choices?.[0]?.message?.content ??
+              "Sorry, I couldn't respond. Try again!";
+
+            setMessages((prev) => [...prev, { role: "model", content: reply }]);
+          } catch (error) {
+            console.error("API Error:", error);
+            setMessages((prev) => [
+              ...prev,
+              {
+                role: "model",
+                content: "Oops! Something went wrong. Please try again.",
+              },
+            ]);
+          } finally {
+            setIsLoading(false);
+          }
+        };
+
+        makeRequest();
+        return [...currentMessages, userMessage]; 
+      });
+    } catch (error) {
+      console.error("Error:", error);
+      setIsLoading(false);
+    }
+  }, [input, isLoading]);
+
+
+  const messagesRef = useRef(messages);
+  useEffect(() => {
+    messagesRef.current = messages;
+  }, [messages]);
+
+  const sendMessageFixed = useCallback(async () => {
+    if (!input.trim() || isLoading) return;
+
+    const userMessageContent = input.trim();
+    const userMessage = { role: "user", content: userMessageContent };
+    
+    setMessages((prev) => [...prev, userMessage]);
+    setInput("");
+    setIsLoading(true);
+
+    try {
+   
+      const currentMessages = messagesRef.current;
+      
+
+      const historyMessages = currentMessages.slice(1).map((msg) => ({
+        role: msg.role === "model" ? "assistant" : "user",
+        content: msg.content,
+      }));
 
       const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
         method: "POST",
@@ -57,11 +134,8 @@ const AIChatbot = memo(() => {
           model: "llama-3.1-8b-instant",
           messages: [
             { role: "system", content: SYSTEM_PROMPT },
-            ...history.map((msg) => ({
-              role: msg.role === "model" ? "assistant" : "user",
-              content: msg.content,
-            })),
-            { role: "user", content: userMessage.content },
+            ...historyMessages,
+            { role: "user", content: userMessageContent },
           ],
         }),
       });
@@ -72,7 +146,8 @@ const AIChatbot = memo(() => {
         "Sorry, I couldn't respond. Try again!";
 
       setMessages((prev) => [...prev, { role: "model", content: reply }]);
-    } catch {
+    } catch (error) {
+      console.error("API Error:", error);
       setMessages((prev) => [
         ...prev,
         {
@@ -83,16 +158,14 @@ const AIChatbot = memo(() => {
     } finally {
       setIsLoading(false);
     }
-  }, [input, isLoading, messages]);
+  }, [input, isLoading]);
 
   const handleKeyDown = (e) => {
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
-      sendMessage();
+      sendMessageFixed();
     }
   };
-
-
 
   return (
     <>
@@ -151,7 +224,7 @@ const AIChatbot = memo(() => {
             <div ref={messagesEndRef} />
           </div>
 
-          {/* Input with horizontal right arrow icon */}
+          {/* Input */}
           <div className="p-3 bg-white border-t border-gray-100 flex gap-2 items-center animate-slideUp">
             <input
               type="text"
@@ -162,7 +235,7 @@ const AIChatbot = memo(() => {
               className="flex-1 text-sm px-3 py-2 rounded-full border border-gray-200 outline-none focus:border-black transition-all duration-200 hover:border-gray-400 focus:scale-[1.02]"
             />
             <button
-              onClick={sendMessage}
+              onClick={sendMessageFixed}
               disabled={!input.trim() || isLoading}
               className="w-8 h-8 bg-black text-white rounded-full flex items-center justify-center disabled:opacity-40 transition-all duration-200 hover:scale-110 active:scale-95"
             >
@@ -172,14 +245,13 @@ const AIChatbot = memo(() => {
         </div>
       )}
 
-      {/* Toggle Button with rotating animation between robot and X */}
+      {/* Toggle Button */}
       <button
         onClick={() => setIsOpen((prev) => !prev)}
         className="fixed bottom-21 right-6 z-50 w-12 h-12 flex items-center justify-center rounded-full bg-black text-white shadow-lg cursor-pointer transition-all duration-300 hover:scale-110 active:scale-95 drop-shadow-2xl"
         aria-label="Toggle AI Chat"
       >
         <div className="relative w-6 h-6">
-          {/* Robot Icon */}
           <div
             className={`absolute inset-0 transition-all duration-300 ease-out ${
               isOpen
@@ -190,7 +262,6 @@ const AIChatbot = memo(() => {
             <BotMessageSquareIcon size={24} />
           </div>
           
-          {/* X Icon */}
           <div
             className={`absolute inset-0 transition-all duration-300 ease-out ${
               isOpen
