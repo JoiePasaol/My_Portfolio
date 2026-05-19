@@ -10,6 +10,7 @@ const Testimonials = lazy(() => import('./sections/Testimonial'));
 const Contact = lazy(() => import('./sections/Contact'));
 const Footer = lazy(() => import('./components/Footer'));
 const ScrollToTop = lazy(() => import('./components/ScrollToTop'));
+const AIChatbot = lazy(() => import('./components/AIChatbot'));
 
 function App() {
   const [isLoading, setIsLoading] = useState(true);
@@ -40,6 +41,7 @@ function App() {
         <Testimonials />
         <Contact />
         <Footer />
+        <AIChatbot />
         <ScrollToTop />
       </Suspense>
     </>
