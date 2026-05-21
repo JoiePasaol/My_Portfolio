@@ -137,36 +137,6 @@ const Home = memo(() => {
         
         </div>
 
-        <style>{`
-          @keyframes float {
-            0%,
-            100% {
-              transform: translateY(0px);
-            }
-            50% {
-              transform: translateY(-10px);
-            }
-          }
-          .animate-float {
-            animation: float 3s ease-in-out infinite;
-          }
-          .shadow-3xl {
-            box-shadow: 0 35px 60px -12px rgba(0, 0, 0, 0.25);
-          }
-          .dark .shadow-3xl {
-            box-shadow: 0 35px 60px -12px rgba(0, 0, 0, 0.5);
-          }
-          .typing-text {
-            display: inline-block;
-          }
-          .cursor {
-            font-weight: 600;
-            color: #1f2937;
-          }
-          .dark .cursor {
-            color: #d1d5db;
-          }
-        `}</style>
       </div>
     </section>
   );
