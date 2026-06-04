@@ -14,7 +14,7 @@ import * as THREE from 'three';
 
 extend({ MeshLineGeometry, MeshLineMaterial });
 
-export default function Lanyard({ position = [0, 0, 30], gravity = [0, -40, 0], fov = 20, transparent = true }) {
+export default function Lanyard({ position = [0, 0, 35], gravity = [0, -40, 0], fov = 20, transparent = true }) {
   return (
     <div className="relative z-0 w-full h-screen flex justify-center items-center transform scale-100 origin-center">
       <Canvas
@@ -50,7 +50,7 @@ function Band({ maxSpeed = 50, minSpeed = 0 }) {
     typeof window !== 'undefined' && window.innerWidth < 1024
   );
 
-  useRopeJoint(fixed, j1, [[0, 0, 0], [0, 0, 0], 1]);
+  useRopeJoint(fixed, j1, [[0, 0, 0], [0, 0, 0], 1.3]);
   useRopeJoint(j1, j2, [[0, 0, 0], [0, 0, 0], 1]);
   useRopeJoint(j2, j3, [[0, 0, 0], [0, 0, 0], 1]);
   useSphericalJoint(j3, card, [[0, 0, 0], [0, 1.50, 0]]);
