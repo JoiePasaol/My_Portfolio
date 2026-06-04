@@ -2,6 +2,7 @@ import { lazy, Suspense, useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import LoadingSpinner from './components/LoadingSpinner';
 
+// Lazy load sections for better performance
 const Home = lazy(() => import('./sections/Hero'));
 const About = lazy(() => import('./sections/About'));
 const Portfolio = lazy(() => import('./sections/Portofolio'));
@@ -11,22 +12,24 @@ const Footer = lazy(() => import('./components/Footer'));
 const ScrollToTop = lazy(() => import('./components/ScrollToTop'));
 const AIChatbot = lazy(() => import('./components/AIChatbot'));
 
-// Preload Lanyard module in the background without rendering anything
-import('./components/Lanyard.jsx');
-
 function App() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+   
     const timer = setTimeout(() => {
       setIsLoading(false);
     }, 3000);
+
+
     return () => clearTimeout(timer);
   }, []);
+
 
   if (isLoading) {
     return <LoadingSpinner />;
   }
+
 
   return (
     <>
