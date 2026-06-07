@@ -7,145 +7,107 @@ import { Badge } from "../components/ui/Badge";
 import { Button } from "../components/ui/Button";
 import LoadingSpinner from "../components/LoadingSpinner";
 
-// Lazy load the heavy ProjectModal component
 const ProjectModal = lazy(() => import("../components/ProjectModal"));
 
 const Portfolio = memo(() => {
   const [activeTab, setActiveTab] = useState("projects");
   const [selectedProject, setSelectedProject] = useState(null);
-
   const [selectedCertIndex, setSelectedCertIndex] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
-  
+
   const certificates = useMemo(() => portfolioData.tabs.certificates, []);
   const projects = useMemo(() => portfolioData.tabs.projects, []);
   const techStacks = useMemo(() => portfolioData.tabs.techStacks, []);
 
-  // Detect mobile/tablet
   useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
     handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const handleTabChange = useCallback((tab) => {
-    setActiveTab(tab);
-  }, []);
+  const handleTabChange = useCallback((tab) => setActiveTab(tab), []);
+  const handleProjectSelect = useCallback((project) => setSelectedProject(project), []);
+  const handleCertificateSelect = useCallback((index) => setSelectedCertIndex(index), []);
+  const closeCertificateModal = useCallback(() => setSelectedCertIndex(null), []);
+  const closeProjectModal = useCallback(() => setSelectedProject(null), []);
 
-  const handleProjectSelect = useCallback((project) => {
-    setSelectedProject(project);
-  }, []);
-
-  const handleCertificateSelect = useCallback((index) => {
-    setSelectedCertIndex(index);
-  }, []);
-
-  const closeCertificateModal = useCallback(() => {
-    setSelectedCertIndex(null);
-  }, []);
-
-  const closeProjectModal = useCallback(() => {
-    setSelectedProject(null);
-  }, []);
-
-  // Keyboard navigation
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (selectedCertIndex !== null) {
-        if (e.key === "ArrowRight") {
+        if (e.key === "ArrowRight")
           setSelectedCertIndex((prev) => (prev + 1) % certificates.length);
-        } else if (e.key === "ArrowLeft") {
-          setSelectedCertIndex(
-            (prev) => (prev - 1 + certificates.length) % certificates.length
-          );
-        } else if (e.key === "Escape") {
-          closeCertificateModal();
-        }
+        else if (e.key === "ArrowLeft")
+          setSelectedCertIndex((prev) => (prev - 1 + certificates.length) % certificates.length);
+        else if (e.key === "Escape") closeCertificateModal();
       }
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [selectedCertIndex, certificates.length, closeCertificateModal]);
 
-  // Swipe gestures for mobile
   useEffect(() => {
     if (!isMobile || selectedCertIndex === null) return;
-
     let touchStartX = 0;
     let touchEndX = 0;
-
-    const handleTouchStart = (e) => {
-      touchStartX = e.touches[0].clientX;
-    };
-
-    const handleTouchMove = (e) => {
-      touchEndX = e.touches[0].clientX;
-    };
-
-    const handleTouchEnd = () => {
-      if (touchStartX - touchEndX > 50) {
+    const handleTouchStart = (e) => { touchStartX = e.touches[0].clientX; };
+    const handleTouchMove  = (e) => { touchEndX   = e.touches[0].clientX; };
+    const handleTouchEnd   = () => {
+      if (touchStartX - touchEndX > 50)
         setSelectedCertIndex((prev) => (prev + 1) % certificates.length);
-      } else if (touchEndX - touchStartX > 50) {
-        setSelectedCertIndex(
-          (prev) => (prev - 1 + certificates.length) % certificates.length
-        );
-      }
+      else if (touchEndX - touchStartX > 50)
+        setSelectedCertIndex((prev) => (prev - 1 + certificates.length) % certificates.length);
     };
-
     window.addEventListener("touchstart", handleTouchStart);
-    window.addEventListener("touchmove", handleTouchMove);
-    window.addEventListener("touchend", handleTouchEnd);
-
+    window.addEventListener("touchmove",  handleTouchMove);
+    window.addEventListener("touchend",   handleTouchEnd);
     return () => {
       window.removeEventListener("touchstart", handleTouchStart);
-      window.removeEventListener("touchmove", handleTouchMove);
-      window.removeEventListener("touchend", handleTouchEnd);
+      window.removeEventListener("touchmove",  handleTouchMove);
+      window.removeEventListener("touchend",   handleTouchEnd);
     };
   }, [isMobile, selectedCertIndex, certificates.length]);
 
   return (
-    <section id="portofolio" className="min-h-screen pb-20 bg-white pt-20 ">
+    <section
+      id="portofolio"
+      className="min-h-screen pb-20 pt-20 bg-white dark:bg-black transition-colors duration-300"
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Title & Subtitle */}
+
+        {/* Title */}
         <div
-          className="text-center mb-12 text-gray-800"
+          className="text-center mb-12"
           data-aos-delay="600"
           data-aos="fade-down"
         >
-          <h2 className="text-5xl font-bold text-black mb-2">
+          <h2 className="text-5xl font-bold text-black dark:text-white mb-2">
             {portfolioData.sectionTitle.title}
           </h2>
-          <p className="text-lg text-black">
+          <p className="text-lg text-gray-500 dark:text-gray-400">
             {portfolioData.sectionTitle.subtitle}
           </p>
         </div>
 
-        {/* Tabs Menu */}
+        {/* Tabs */}
         <div
           className="flex justify-center mb-8 gap-4 flex-wrap"
           data-aos-delay="600"
           data-aos="fade-down"
         >
           {[
-            { value: "projects", label: "Projects", icon: "bx bx-briefcase" },
-            {
-              value: "certificates",
-              label: "Certificates",
-              icon: "bx bx-award",
-            },
-            { value: "tech", label: "Skills", icon: "bx bx-code-alt" },
+            { value: "projects",      label: "Projects",      icon: "bx bx-briefcase" },
+            { value: "certificates",  label: "Certificates",  icon: "bx bx-award"     },
+            { value: "tech",          label: "Skills",        icon: "bx bx-code-alt"  },
           ].map((tab) => (
             <button
               key={tab.value}
               onClick={() => handleTabChange(tab.value)}
-              className={`flex items-center gap-2 px-5 py-3 rounded-lg shadow-lg text-sm font-medium transition-all cursor-pointer hover:bg-black hover:text-white ${
-                activeTab === tab.value
-                  ? "bg-black text-white"
-                  : "text-black border border-black"
-              }`}
+              className={`flex items-center gap-2 px-5 py-3 rounded-lg shadow-lg text-sm font-medium transition-all cursor-pointer
+                ${activeTab === tab.value
+                  ? "bg-black text-white dark:bg-white dark:text-black"
+                  : "text-black border border-black hover:bg-black hover:text-white dark:text-white dark:border-white dark:hover:bg-white dark:hover:text-black"
+                }`}
             >
               <i className={tab.icon}></i>
               {tab.label}
@@ -153,9 +115,10 @@ const Portfolio = memo(() => {
           ))}
         </div>
 
-        {/* Tabs Content */}
+        {/* Tab Content */}
         <div>
-                     {/* Projects Tab */}
+
+          {/* Projects */}
           {activeTab === "projects" && (
             <div
               className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
@@ -165,7 +128,7 @@ const Portfolio = memo(() => {
               {projects.map((project) => (
                 <Card
                   key={project.id}
-                  className="group hover:-translate-y-1 transition-all duration-300 hover:shadow-lg"
+                  className="group hover:-translate-y-1 transition-all duration-300 hover:shadow-lg border-gray-200 dark:border-white/10"
                 >
                   <div className="relative overflow-hidden rounded-t-lg">
                     <img
@@ -180,7 +143,7 @@ const Portfolio = memo(() => {
                     <CardDescription>{project.subtitle}</CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-sm text-muted-foreground mb-4 line-clamp-3">
+                    <p className="text-sm text-gray-500 dark:text-gray-400 mb-4 line-clamp-3">
                       {project.desc}
                     </p>
                     <div className="flex flex-wrap gap-2 mb-4">
@@ -190,87 +153,83 @@ const Portfolio = memo(() => {
                         </Badge>
                       ))}
                     </div>
-                    <Button
-                      onClick={() => handleProjectSelect(project)}
-                      className="w-full"
-                    >
-                      <i className="fa-solid fa-expand text-white" />View
+                    <Button onClick={() => handleProjectSelect(project)} className="w-full">
+                      <i className="fa-solid fa-expand" /> View
                     </Button>
                   </CardContent>
                 </Card>
               ))}
             </div>
           )}
-        {/* Certificates Tab */}
-      {activeTab === "certificates" && (
-        <div
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
-          data-aos-delay="600"
-          data-aos="fade-down"
-        >
-          {certificates.map((certificate, index) => (
+
+          {/* Certificates */}
+          {activeTab === "certificates" && (
             <div
-              key={certificate.id}
-              className="border border-black rounded-lg shadow-lg hover:-translate-y-1 transition-transform overflow-hidden cursor-pointer"
-              onClick={() => handleCertificateSelect(index)}
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
+              data-aos-delay="600"
+              data-aos="fade-down"
             >
-              <img
-                src={certificate.img}
-                alt={certificate.title}
-                className="w-full h-72 object-cover rounded-lg"
-                loading="lazy"
-              />
+              {certificates.map((certificate, index) => (
+                <div
+                  key={certificate.id}
+                  className="border border-black dark:border-white/20 rounded-lg shadow-lg hover:-translate-y-1 transition-transform overflow-hidden cursor-pointer hover:border-black dark:hover:border-white"
+                  onClick={() => handleCertificateSelect(index)}
+                >
+                  <img
+                    src={certificate.img}
+                    alt={certificate.title}
+                    className="w-full h-72 object-cover rounded-lg"
+                    loading="lazy"
+                  />
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-      )}
+          )}
 
-      {/* Modal */}
-      {selectedCertIndex !== null && (
-        <div
-          className="fixed inset-0 bg-[rgba(0,0,0,0.8)] flex items-center justify-center z-50 fade-in"
-          onClick={closeCertificateModal}
-        >
-          <div
-            className="relative max-w-3xl w-full p-4 zoom-in"
-            onClick={(e) => e.stopPropagation()}
-          >
-            {/* Arrows (desktop only) */}
-            {!isMobile && (
-              <>
-                <button
-                  onClick={() =>
-                    setSelectedCertIndex(
-                      (prev) => (prev - 1 + certificates.length) % certificates.length
-                    )
-                  }
-                  className="absolute left-[-60px] top-1/2 transform -translate-y-1/2 text-white text-4xl hover:text-gray-300"
-                >
-                  <i className="fas fa-chevron-left"></i>
-                </button>
-                <button
-                  onClick={() =>
-                    setSelectedCertIndex((prev) => (prev + 1) % certificates.length)
-                  }
-                  className="absolute right-[-60px] top-1/2 transform -translate-y-1/2 text-white text-4xl hover:text-gray-300"
-                >
-                  <i className="fas fa-chevron-right"></i>
-                </button>
-              </>
-            )}
+          {/* Certificate Modal */}
+          {selectedCertIndex !== null && (
+            <div
+              className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 fade-in"
+              onClick={closeCertificateModal}
+            >
+              <div
+                className="relative max-w-3xl w-full p-4 zoom-in"
+                onClick={(e) => e.stopPropagation()}
+              >
+                {!isMobile && (
+                  <>
+                    <button
+                      onClick={() =>
+                        setSelectedCertIndex((prev) => (prev - 1 + certificates.length) % certificates.length)
+                      }
+                      className="absolute left-[-60px] top-1/2 -translate-y-1/2 text-white text-4xl hover:text-gray-300 transition-colors cursor-pointer"
+                    >
+                      <i className="fas fa-chevron-left"></i>
+                    </button>
+                    <button
+                      onClick={() =>
+                        setSelectedCertIndex((prev) => (prev + 1) % certificates.length)
+                      }
+                      className="absolute right-[-60px] top-1/2 -translate-y-1/2 text-white text-4xl hover:text-gray-300 transition-colors cursor-pointer"
+                    >
+                      <i className="fas fa-chevron-right"></i>
+                    </button>
+                  </>
+                )}
+                <img
+                  src={certificates[selectedCertIndex].img}
+                  alt={certificates[selectedCertIndex].title}
+                  className="w-full h-auto rounded-lg border border-white/20 shadow-2xl"
+                  loading="lazy"
+                />
+                {isMobile && certificates.length > 1 && (
+                  <p className="text-center text-white/50 text-xs mt-3">Swipe left or right to navigate</p>
+                )}
+              </div>
+            </div>
+          )}
 
-            {/* Enlarged Certificate */}
-            <img
-              src={certificates[selectedCertIndex].img}
-              alt={certificates[selectedCertIndex].title}
-              className="w-full h-auto rounded-lg border border-white shadow-2xl"
-              loading="lazy"
-            />
-          </div>
-        </div>
-      )}
-
-          {/* Tech Stack Tab */}
+          {/* Tech Stack */}
           {activeTab === "tech" && (
             <div
               className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
@@ -280,44 +239,31 @@ const Portfolio = memo(() => {
               {techStacks.map((tech) => (
                 <div
                   key={tech.id}
-                  className="bg-transparent border border-black rounded-lg p-6 shadow-lg hover:-translate-y-1 transition-transform flex flex-col items-center justify-center gap-4"
+                  className="bg-transparent border border-black dark:border-white/20 rounded-lg p-6 shadow-lg hover:-translate-y-1 transition-transform flex flex-col items-center justify-center gap-4 hover:border-black dark:hover:border-white"
                 >
                   {tech.icon.startsWith("http") || tech.icon.startsWith("/") ? (
-                    <img
-                      src={tech.icon}
-                      alt={tech.label}
-                      className="w-16 h-16"
-                      loading="lazy"
-                    />
+                    <img src={tech.icon} alt={tech.label} className="w-16 h-16" loading="lazy" />
                   ) : (
-                    <i
-                      className={`${tech.icon} text-6xl`}
-                      style={{ color: tech.color }}
-                    ></i>
+                    <i className={`${tech.icon} text-6xl`} style={{ color: tech.color }}></i>
                   )}
-
-                  <span className="text-lg font-medium text-black">
-                    {tech.label}
-                  </span>
+                  <span className="text-lg font-medium text-black dark:text-white">{tech.label}</span>
                 </div>
               ))}
             </div>
           )}
         </div>
-         {/* Project Modal */}
-         {selectedProject && (
-            <Suspense fallback={<LoadingSpinner />}>
-              <ProjectModal
-                project={selectedProject}
-                onClose={closeProjectModal}
-              />
-            </Suspense>
+
+        {/* Project Modal */}
+        {selectedProject && (
+          <Suspense fallback={<LoadingSpinner />}>
+            <ProjectModal project={selectedProject} onClose={closeProjectModal} />
+          </Suspense>
         )}
       </div>
     </section>
   );
 });
 
-Portfolio.displayName = 'Portfolio';
+Portfolio.displayName = "Portfolio";
 
 export default Portfolio;

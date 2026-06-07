@@ -1,6 +1,7 @@
 import { lazy, Suspense, useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import LoadingSpinner from './components/LoadingSpinner';
+import DarkModeToggle from './components/DarkModeToggle';
 
 // Lazy load sections for better performance
 const Home = lazy(() => import('./sections/Hero'));
@@ -17,20 +18,16 @@ function App() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-   
     const timer = setTimeout(() => {
       setIsLoading(false);
     }, 3000);
 
-
     return () => clearTimeout(timer);
   }, []);
-
 
   if (isLoading) {
     return <LoadingSpinner />;
   }
-
 
   return (
     <>
@@ -43,6 +40,8 @@ function App() {
         <Testimonials />
         <Contact />
         <Footer />
+        {/* Dark mode toggle sits above AIChatbot */}
+        <DarkModeToggle />
         <AIChatbot />
         <ScrollToTop />
       </Suspense>

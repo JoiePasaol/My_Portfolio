@@ -8,12 +8,17 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-black text-white hover:bg-black/80",
-        destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
-        outline: "border border-input bg-background hover:bg-accent hover:text-accent-foreground",
-        secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
+        default:
+          "bg-black text-white hover:bg-black/80 dark:bg-white dark:text-black dark:hover:bg-white/80",
+        destructive:
+          "bg-destructive text-destructive-foreground hover:bg-destructive/90",
+        outline:
+          "border border-black bg-transparent text-black hover:bg-black hover:text-white dark:border-white dark:text-white dark:hover:bg-white dark:hover:text-black",
+        secondary:
+          "bg-gray-100 text-black hover:bg-gray-200 dark:bg-white/10 dark:text-white dark:hover:bg-white/20",
+        ghost:
+          "text-black hover:bg-gray-100 dark:text-white dark:hover:bg-white/10",
+        link: "text-black underline-offset-4 hover:underline dark:text-white",
       },
       size: {
         default: "h-10 px-4 py-2",
@@ -29,8 +34,8 @@ const buttonVariants = cva(
   }
 );
 
-const Button = memo(forwardRef(
-  ({ className, variant, size, asChild = false, ...props }, ref) => {
+const Button = memo(
+  forwardRef(({ className, variant, size, asChild = false, ...props }, ref) => {
     const Comp = asChild ? Slot : "button";
     return (
       <Comp
@@ -39,10 +44,9 @@ const Button = memo(forwardRef(
         {...props}
       />
     );
-  }
-));
+  })
+);
 
 Button.displayName = "Button";
 
 export { Button, buttonVariants };
-

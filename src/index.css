@@ -81,81 +81,40 @@ img {
   contain-intrinsic-size: 1000px;
 }
 
-.loader {
-    position: relative;
-    width: 78px;
-    height: 78px;
-    border-radius: 50%;
-    background: #fff;
-    border: 8px solid #131a1d;
-    overflow: hidden;
-    box-sizing: border-box;
+.loader-text {
+  font-size: 2em;
+  font-weight: 900;
+}
+
+.loader-text > * {
+  display: inline-flex;
+}
+
+.loader-text-light > * {
+  color: #000000;
+}
+
+.loader-text-dark > * {
+  color: #ffffff;
+}
+
+.loader-text span:nth-child(2) {
+  letter-spacing: -1em;
+  overflow: hidden;
+  animation: reveal 1500ms cubic-bezier(0.645, 0.045, 0.355, 1) infinite alternate;
+}
+
+@keyframes reveal {
+  0%,
+  100% {
+    opacity: 0.5;
+    letter-spacing: -1em;
   }
-  .loader::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: -50%;
-    width: 100%;
-    height: 100%;
-    background: #263238;
-    z-index: 5;
-    border-bottom: 8px solid #131a1d;
-    box-sizing: border-box;
-    animation: eyeShade 3s infinite;
+  50% {
+    opacity: 1;
+    letter-spacing: 0em;
   }
-  .loader::before {
-    content: '';
-    position: absolute;
-    left: 20px;
-    bottom: 15px;
-    width: 32px;
-    z-index: 2;
-    height: 32px;
-    background: #111;
-    border-radius: 50%;
-    animation: eyeMove 3s infinite;
-  }
-  @keyframes eyeShade {
-    0% {
-      transform: translateY(0)
-    }
-    20% {
-      transform: translateY(5px)
-    }
-    40%, 50% {
-      transform: translateY(-5px)
-    }
-    60% {
-      transform: translateY(-8px)
-    }
-    75% {
-      transform: translateY(5px)
-    }
-    100% {
-      transform: translateY(10px)
-    }
-  }
-  @keyframes eyeMove {
-    0% {
-      transform: translate(0, 0)
-    }
-    20% {
-      transform: translate(0px, 5px)
-    }
-    40%, 50% {
-      transform: translate(0px, -5px)
-    }
-    60% {
-      transform: translate(-10px, -5px)
-    }
-    75% {
-      transform: translate(-20px, 5px)
-    }
-    100% {
-      transform: translate(0, 10px)
-    }
-  }
+}
    @keyframes slideDown {
         from {
           opacity: 0;
@@ -230,3 +189,5 @@ img {
           .dark .cursor {
             color: #d1d5db;
           }
+
+          

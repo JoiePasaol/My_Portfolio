@@ -248,7 +248,7 @@ const AIChatbot = memo(() => {
       {/* Toggle Button */}
       <button
         onClick={() => setIsOpen((prev) => !prev)}
-        className="fixed bottom-21 right-6 z-50 w-12 h-12 flex items-center justify-center rounded-full bg-black text-white shadow-lg cursor-pointer transition-all duration-300 hover:scale-110 active:scale-95 drop-shadow-2xl"
+        className="fixed bottom-21 right-6 z-50 w-12 h-12 flex items-center justify-center rounded-full bg-black dark:bg-white text-white dark:text-black shadow-lg cursor-pointer transition-all duration-300 hover:scale-110 active:scale-95 drop-shadow-2xl"
         aria-label="Toggle AI Chat"
       >
         <div className="relative w-6 h-6">
@@ -261,7 +261,7 @@ const AIChatbot = memo(() => {
           >
             <BotMessageSquareIcon size={24} />
           </div>
-          
+
           <div
             className={`absolute inset-0 transition-all duration-300 ease-out ${
               isOpen

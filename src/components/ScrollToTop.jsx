@@ -20,12 +20,11 @@ const ScrollToTop = memo(() => {
         isVisible && (
             <button
                 onClick={scrollToTop}
-                className="fixed bottom-6 right-6 z-50 w-12 h-12 flex items-center drop-shadow-2xl justify-center rounded-full bg-black text-white shadow-lg cursor-pointer  transition-all hover:scale-103"   data-aos="fade-top"
+                className="fixed bottom-6 right-6 z-50 w-12 h-12 flex items-center justify-center rounded-full drop-shadow-2xl bg-black dark:bg-white text-white dark:text-black shadow-lg cursor-pointer transition-all duration-300 hover:scale-110 active:scale-95"
                 aria-label="Scroll to Top"
             >
                 <i className="bx bx-chevron-up text-2xl" />
             </button>
-
         )
     );
 });

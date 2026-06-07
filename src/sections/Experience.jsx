@@ -1,7 +1,6 @@
 import { memo, useState, useEffect, useCallback, useRef } from "react";
 import experienceData from "../data/experienceData.jsx";
 
-// ── useFadeUp hook ──
 function useFadeUp(ref) {
   useEffect(() => {
     const el = ref.current;
@@ -23,52 +22,58 @@ function useFadeUp(ref) {
   }, [ref]);
 }
 
-// ── ExperienceCard ──
 const ExperienceCard = memo(({ exp, expIndex, isOpen, onToggle, onOpenModal, isLast }) => {
   const contentRef = useRef(null);
-
   const hasImages = exp.galleryImages && exp.galleryImages.length > 0;
 
   return (
-   <div
-  className="flex gap-0 relative"
-  data-aos={expIndex % 2 === 0 ? "fade-right" : "fade-left"}
-  data-aos-delay={expIndex * 150}
->
+    <div
+      className="flex gap-0 relative"
+      data-aos={expIndex % 2 === 0 ? "fade-right" : "fade-left"}
+      data-aos-delay={expIndex * 150}
+    >
       {/* Timeline Column */}
       <div className="flex flex-col items-center mr-5 flex-shrink-0 w-6 relative">
         <div
           className={`w-4 h-4 rounded-full border-2 flex-shrink-0 mt-6 z-10 transition-all duration-300
-            ${isOpen ? "bg-black border-black scale-125 shadow-[0_0_0_4px_rgba(0,0,0,0.12)]" : "bg-white border-gray-400"}`}
+            ${isOpen
+              ? "bg-black dark:bg-white border-black dark:border-white scale-125 shadow-[0_0_0_4px_rgba(0,0,0,0.12)]"
+              : "bg-white dark:bg-black border-gray-400 dark:border-gray-600"
+            }`}
         />
         {!isLast && (
-          <div className="w-px flex-1 mt-1 bg-gradient-to-b from-gray-400 to-gray-200 min-h-[24px]" />
+          <div className="w-px flex-1 mt-1 bg-gradient-to-b from-gray-400 dark:from-gray-600 to-gray-200 dark:to-gray-800 min-h-[24px]" />
         )}
       </div>
 
       {/* Card */}
       <div
         className={`flex-1 rounded-xl border-2 shadow-md overflow-hidden mb-4 transition-all duration-300
-          ${isOpen ? "border-black shadow-xl" : "border-gray-200 hover:border-black hover:shadow-lg"}`}
+          ${isOpen
+            ? "border-black dark:border-white shadow-xl"
+            : "border-gray-200 dark:border-white/10 hover:border-black dark:hover:border-white hover:shadow-lg"
+          }`}
       >
         {/* Header */}
         <button
           onClick={() => onToggle(expIndex)}
-          className="w-full text-left px-6 py-5 flex items-center justify-between gap-4 group cursor-pointer bg-white hover:bg-gray-50 transition-colors duration-200"
+          className="w-full text-left px-6 py-5 flex items-center justify-between gap-4 group cursor-pointer bg-white dark:bg-black hover:bg-gray-50 dark:hover:bg-white/5 transition-colors duration-200"
           aria-expanded={isOpen}
-          
         >
           <div className="flex items-center gap-4 min-w-0">
             <div
               className={`flex-shrink-0 w-12 h-12 flex items-center justify-center rounded-lg shadow-md transition-all duration-300
-                ${isOpen ? "bg-black text-white" : "bg-gray-100 text-gray-600 group-hover:bg-black group-hover:text-white"}`}
+                ${isOpen
+                  ? "bg-black dark:bg-white text-white dark:text-black"
+                  : "bg-gray-100 dark:bg-white text-gray-600 dark:text-black group-hover:bg-black dark:group-hover:bg-white group-hover:text-white dark:group-hover:text-black"
+                }`}
             >
               <i className="bx bx-briefcase text-xl"></i>
             </div>
             <div className="min-w-0">
-              <h3 className="text-lg font-bold text-black leading-tight truncate">{exp.title}</h3>
+              <h3 className="text-lg font-bold text-black dark:text-white leading-tight truncate">{exp.title}</h3>
               {exp.company && (
-                <p className="text-sm text-gray-500 flex items-center gap-1 mt-0.5">
+                <p className="text-sm text-gray-500 dark:text-gray-400 flex items-center gap-1 mt-0.5">
                   <i className="bx bx-buildings text-sm"></i>
                   {exp.company}
                 </p>
@@ -76,18 +81,18 @@ const ExperienceCard = memo(({ exp, expIndex, isOpen, onToggle, onOpenModal, isL
             </div>
           </div>
           <div className="flex items-center gap-3 flex-shrink-0">
-            <span className="hidden sm:inline-flex items-center gap-1.5 text-xs font-medium text-gray-500 bg-gray-100 px-3 py-1.5 rounded-full whitespace-nowrap">
+            <span className="hidden sm:inline-flex items-center gap-1.5 text-xs font-medium text-gray-500 dark:text-black bg-gray-100 dark:bg-white px-3 py-1.5 rounded-full whitespace-nowrap">
               <i className="bx bx-calendar text-sm"></i>
               {exp.period}
             </span>
-            <i className={`bx bx-chevron-down text-2xl text-gray-400 transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}></i>
+            <i className={`bx bx-chevron-down text-2xl text-gray-400 dark:text-gray-500 transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`}></i>
           </div>
         </button>
 
         {/* Period on mobile */}
         {!isOpen && (
-          <div className="sm:hidden px-6 pb-3 -mt-2">
-            <span className="inline-flex items-center gap-1 text-xs font-medium text-gray-500 bg-gray-100 px-3 py-1 rounded-full">
+          <div className="sm:hidden px-6 pb-3 -mt-2 bg-white dark:bg-black">
+            <span className="inline-flex items-center gap-1 text-xs font-medium text-gray-500 dark:text-black bg-gray-100 dark:bg-gray-800 px-3 py-1 rounded-full">
               <i className="bx bx-calendar text-sm"></i>
               {exp.period}
             </span>
@@ -103,14 +108,14 @@ const ExperienceCard = memo(({ exp, expIndex, isOpen, onToggle, onOpenModal, isL
             overflow: "hidden",
           }}
         >
-          <div className="px-6 pb-6 pt-2 border-t border-gray-100">
-            <p className="text-gray-700 mb-4 leading-relaxed">{exp.subtitle}</p>
+          <div className="px-6 pb-6 pt-2 border-t border-gray-100 dark:border-white/5 bg-white dark:bg-black">
+            <p className="text-gray-700 dark:text-gray-300 mb-4 leading-relaxed">{exp.subtitle}</p>
 
             {exp.bullets && exp.bullets.length > 0 && (
               <ul className="space-y-2 mb-6">
                 {exp.bullets.map((point, i) => (
-                  <li key={i} className="flex items-start gap-2.5 text-gray-700 text-sm">
-                    <span className="mt-1.5 w-1.5 h-1.5 min-w-[6px] rounded-full bg-black inline-block"></span>
+                  <li key={i} className="flex items-start gap-2.5 text-gray-700 dark:text-gray-300 text-sm">
+                    <span className="mt-1.5 w-1.5 h-1.5 min-w-[6px] rounded-full bg-black dark:bg-white inline-block"></span>
                     {point}
                   </li>
                 ))}
@@ -119,7 +124,7 @@ const ExperienceCard = memo(({ exp, expIndex, isOpen, onToggle, onOpenModal, isL
 
             {hasImages && (
               <div>
-                <p className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-3 flex items-center gap-1.5">
+                <p className="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-3 flex items-center gap-1.5">
                   <i className="bx bx-images text-base"></i>
                   Photos
                 </p>
@@ -128,7 +133,7 @@ const ExperienceCard = memo(({ exp, expIndex, isOpen, onToggle, onOpenModal, isL
                     <div
                       key={i}
                       onClick={() => onOpenModal(expIndex, i)}
-                      className="relative group cursor-pointer rounded-xl overflow-hidden border-2 border-gray-200 hover:border-black transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+                      className="relative group cursor-pointer rounded-xl overflow-hidden border-2 border-gray-200 dark:border-white/5 hover:border-black dark:hover:border-white transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
                     >
                       <img
                         src={path}
@@ -153,7 +158,6 @@ const ExperienceCard = memo(({ exp, expIndex, isOpen, onToggle, onOpenModal, isL
 
 ExperienceCard.displayName = "ExperienceCard";
 
-// ── Experience Section ──
 const Experience = memo(() => {
   const [openExpIndex, setOpenExpIndex] = useState(null);
   const [modal, setModal] = useState(null);
@@ -170,10 +174,7 @@ const Experience = memo(() => {
     setOpenExpIndex((prev) => (prev === index ? null : index));
   }, []);
 
-  const openModal = useCallback((expIndex, imgIndex) => {
-    setModal({ expIndex, imgIndex });
-  }, []);
-
+  const openModal  = useCallback((expIndex, imgIndex) => setModal({ expIndex, imgIndex }), []);
   const closeModal = useCallback(() => setModal(null), []);
 
   const navigate = useCallback(
@@ -203,9 +204,9 @@ const Experience = memo(() => {
     if (!isMobile || !modal) return;
     let touchStartX = 0;
     let touchEndX = 0;
-    const handleTouchStart  = (e) => { touchStartX = e.touches[0].clientX; };
-    const handleTouchMove   = (e) => { touchEndX   = e.touches[0].clientX; };
-    const handleTouchEnd    = ()  => {
+    const handleTouchStart = (e) => { touchStartX = e.touches[0].clientX; };
+    const handleTouchMove  = (e) => { touchEndX   = e.touches[0].clientX; };
+    const handleTouchEnd   = ()  => {
       if (touchStartX - touchEndX > 50) navigate(1);
       else if (touchEndX - touchStartX > 50) navigate(-1);
     };
@@ -222,17 +223,13 @@ const Experience = memo(() => {
   const activeImages = modal !== null ? experienceData[modal.expIndex].galleryImages : [];
 
   return (
-    <section id="experience" className="bg-white pb-20 pt-20">
+    <section id="experience" className="bg-white dark:bg-black pb-20 pt-20 transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Heading */}
-        <div
-          className="text-center mb-10"
-          data-aos-delay="200"
-          data-aos="fade-down"
-        >
-          <h2 className="text-5xl font-bold text-black mb-2">Experience</h2>
-          <p className="text-gray-500 text-sm mt-2">Click an entry to explore details</p>
+        <div className="text-center mb-10" data-aos-delay="200" data-aos="fade-down">
+          <h2 className="text-5xl font-bold text-black dark:text-white mb-2">Experience</h2>
+          <p className="text-gray-500 dark:text-gray-400 text-sm mt-2">Click an entry to explore details</p>
         </div>
 
         {/* Timeline */}
@@ -257,10 +254,7 @@ const Experience = memo(() => {
           className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 px-4"
           onClick={closeModal}
         >
-          <div
-            className="relative w-full max-w-3xl"
-            onClick={(e) => e.stopPropagation()}
-          >
+          <div className="relative w-full max-w-3xl" onClick={(e) => e.stopPropagation()}>
             {!isMobile && activeImages.length > 1 && (
               <>
                 <button
