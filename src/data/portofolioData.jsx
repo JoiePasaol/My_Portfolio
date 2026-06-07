@@ -141,6 +141,10 @@ export const portfolioData = {
         id: 5,
         img: "/assets/certificate/c5.jpg",
       },
+         {
+        id: 6,
+        img: "/assets/certificate/c6.pdf",
+      },
     ],
 
     techStacks: [
