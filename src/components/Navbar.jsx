@@ -7,28 +7,48 @@ const Navbar = memo(() => {
   
     const currentYear = () => new Date().getFullYear();
 
-    useEffect(() => {
-        const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        setActiveId(entry.target.id);
-                    }
-                });
-            },
-            { 
-                threshold: 0.6,
-                rootMargin: '-10% 0px -10% 0px'
-            }
-        );
+useEffect(() => {
+    const handleScroll = () => {
+        const scrollY = window.scrollY;
+
+        if (scrollY < 50) {
+            setActiveId("home");
+            return;
+        }
+
+        let current = null;
+        let closestDistance = Infinity;
 
         navbarData.forEach((item) => {
             const section = document.getElementById(item.id);
-            if (section) observer.observe(section);
+            if (!section) return;
+
+            const top = section.getBoundingClientRect().top;
+            const distance = Math.abs(top - 80);
+
+            if (top <= 120 && distance < closestDistance) {
+                closestDistance = distance;
+                current = item.id;
+            }
         });
 
-        return () => observer.disconnect();
-    }, []);
+        if (current) setActiveId(current);
+    };
+
+    const handleHashChange = () => {
+        const hash = window.location.hash.replace("#", "");
+        if (hash) setActiveId(hash);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("hashchange", handleHashChange);
+    handleScroll(); 
+
+    return () => {
+        window.removeEventListener("scroll", handleScroll);
+        window.removeEventListener("hashchange", handleHashChange);
+    };
+}, []);
 
     useEffect(() => {
         if (isMenuOpen) {

@@ -5,6 +5,7 @@ import LoadingSpinner from './components/LoadingSpinner';
 // Lazy load sections for better performance
 const Home = lazy(() => import('./sections/Hero'));
 const About = lazy(() => import('./sections/About'));
+const Experience = lazy(() => import('./sections/Experience'));
 const Portfolio = lazy(() => import('./sections/Portofolio'));
 const Testimonials = lazy(() => import('./sections/Testimonial'));
 const Contact = lazy(() => import('./sections/Contact'));
@@ -37,6 +38,7 @@ function App() {
       <Suspense fallback={<LoadingSpinner />}>
         <Home />
         <About />
+        <Experience />
         <Portfolio />
         <Testimonials />
         <Contact />

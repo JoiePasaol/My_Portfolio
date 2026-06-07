@@ -38,7 +38,7 @@ const Contact = memo(() => {
   }, []);
 
   return (
-    <section id="contact" className="min-h-screen pb-20 bg-white pt-10 overflow-x-hidden">
+    <section id="contact" className="min-h-screen pb-20 bg-white pt-10 scroll-mt-20 overflow-x-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Title & Subtitle */}
         <div className="text-center mb-12 text-gray-800" data-aos-delay="600" data-aos="fade-down">

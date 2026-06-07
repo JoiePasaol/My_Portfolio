@@ -12,9 +12,12 @@ const footerData = {
     navigation: [
         { label: "Home", href: "#home" },
         { label: "About", href: "#about" },
-        { label: "Projects", href: "#projects" },
+        { label: "experience", href: "#experience" },
+        { label: "portofolio", href: "#portofolio" },
+        { label: "testimonials", href: "#testimonials" },
         { label: "Contact", href: "#contact" },
     ],
+
 
     legalLinks: [
         { label: "Privacy Policy", href: "#privacy" },

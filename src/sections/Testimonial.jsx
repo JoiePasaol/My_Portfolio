@@ -259,12 +259,12 @@ await emailjs.send(
     [testimonials, renderStars]
   );
 
-  // ── JSX ───────────────────────────────────────────────────────────────────
+ 
   return (
     <section
-      id="testimonials"
-      className="pt-5 min-h-screen overflow-hidden px-4 sm:px-6 lg:px-8 bg-white"
-    >
+  id="testimonials"
+  className="pt-5 scroll-mt-20 min-h-screen overflow-hidden px-4 sm:px-6 lg:px-8 bg-white"
+>
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div

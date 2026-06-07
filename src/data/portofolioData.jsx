@@ -143,7 +143,11 @@ export const portfolioData = {
       },
          {
         id: 6,
-        img: "/assets/certificate/c6.pdf",
+        img: "/assets/certificate/c6.jpg",
+      },
+       {
+        id: 7,
+        img: "/assets/certificate/c7.jpg",
       },
     ],
 
