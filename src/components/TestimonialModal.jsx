@@ -1,4 +1,4 @@
-import { memo, useState } from "react";
+import { memo, useState, useEffect } from "react";
 
 // ─── StarRating ──────────────────────────────────────────────────────────────
 const StarRating = memo(({ rating, onRatingChange }) => {
@@ -34,6 +34,15 @@ StarRating.displayName = "StarRating";
 
 // ─── CustomModal ─────────────────────────────────────────────────────────────
 const CustomModal = memo(({ isOpen, onClose, children }) => {
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [isOpen, onClose]);
+
   if (!isOpen) return null;
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
@@ -44,7 +53,7 @@ const CustomModal = memo(({ isOpen, onClose, children }) => {
       <div className="relative bg-white dark:bg-black border border-white/10 rounded-xl shadow-lg max-w-md w-full mx-4 transform transition-all">
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors"
+          className="absolute top-4 right-4 text-gray-400 hover:text-black dark:text-gray-500 dark:hover:text-white transition-colors cursor-pointer"
           aria-label="Close modal"
         >
           <i className="bx bx-x text-2xl"></i>

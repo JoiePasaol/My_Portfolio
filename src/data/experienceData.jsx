@@ -21,7 +21,7 @@ const experienceData = [
   {
     title: "Web Developer Intern",
     company: "eComia",
-    period: "5+ Months",
+    period: "September 2024 – January 2025",
     subtitle: "Served as a Web Developer Intern for over 5 months, collaborating with fellow interns on the development of two projects and culminating in formal presentations to the company's CEO and management team.",
     bullets: [
       "Created visually appealing layouts and improved overall user experience.",
