@@ -92,7 +92,7 @@ const ExperienceCard = memo(({ exp, expIndex, isOpen, onToggle, onOpenModal, isL
         {/* Period on mobile */}
         {!isOpen && (
           <div className="sm:hidden px-6 pb-3 -mt-2 bg-white dark:bg-black">
-            <span className="inline-flex items-center gap-1 text-xs font-medium text-gray-500 dark:text-black bg-gray-100 dark:bg-gray-800 px-3 py-1 rounded-full">
+            <span className="inline-flex items-center gap-1 text-xs font-medium text-gray-500 dark:text-black bg-gray-100 dark:bg-white px-3 py-1 rounded-full">
               <i className="bx bx-calendar text-sm"></i>
               {exp.period}
             </span>
