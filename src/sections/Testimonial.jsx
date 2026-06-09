@@ -68,6 +68,11 @@ const Testimonials = memo(() => {
     if (!validateForm()) return;
     setIsSubmitting(true);
 
+    // Detect current theme at submit time
+    const isDark = document.documentElement.classList.contains("dark");
+    const avatarBg = isDark ? "ffffff" : "000000";
+    const avatarColor = isDark ? "000" : "fff";
+
     const { data: inserted, error } = await supabase
       .from("testimonials")
       .insert([{
@@ -77,7 +82,7 @@ const Testimonials = memo(() => {
         position: formData.position,
         rating: formData.rating,
         status: "pending",
-        avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(formData.name)}&background=1f2937&color=fff&size=100`,
+        avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(formData.name)}&background=${avatarBg}&color=${avatarColor}&size=100`,
       }])
       .select()
       .single();
@@ -146,10 +151,14 @@ const Testimonials = memo(() => {
             <img
               src={testimonial.avatar}
               alt={`Avatar of ${testimonial.name}`}
-              className="w-10 h-10 rounded-full shadow-lg object-cover ring-2 ring-black dark:ring-white/20"
+              className="w-10 h-10 rounded-full shadow-lg object-cover ring-2 ring-black dark:ring-white"
               loading="lazy"
               onError={(e) => {
-                e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(testimonial.name)}&background=fff&color=000&size=48`;
+                // Detect theme at error-fallback time
+                const isDark = document.documentElement.classList.contains("dark");
+                const bg = isDark ? "ffffff" : "000000";
+                const color = isDark ? "000" : "fff";
+                e.target.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(testimonial.name)}&background=${bg}&color=${color}&size=48`;
               }}
             />
             <div>

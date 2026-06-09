@@ -1,6 +1,6 @@
 import { memo, useEffect, useState } from 'react';
 
-const LoadingSpinner = memo(() => {
+const Loading = memo(() => {
   const [isDark, setIsDark] = useState(() => {
     const saved = localStorage.getItem('theme');
     if (saved) return saved === 'dark';
@@ -20,8 +20,8 @@ const LoadingSpinner = memo(() => {
 
   return (
     <div
-      className="flex items-center justify-center min-h-screen transition-colors duration-300"
-      style={{ backgroundColor: isDark ? '#000000' : '#ffffff' }}
+      className="flex items-center justify-center min-h-screen w-full transition-colors duration-300"
+       style={{ backgroundColor: isDark ? '#000000' : '#ffffff' }}
     >
       <div className={`loader-text ${isDark ? 'loader-text-dark' : 'loader-text-light'}`}>
         <span>&lt;</span>
@@ -32,5 +32,5 @@ const LoadingSpinner = memo(() => {
   );
 });
 
-LoadingSpinner.displayName = 'LoadingSpinner';
-export default LoadingSpinner;
+Loading.displayName = 'Loading';
+export default Loading;

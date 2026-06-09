@@ -23,8 +23,8 @@ const DarkModeToggle = memo(() => {
       onClick={toggle}
       aria-label={isDark ? "Switch to light mode" : "Switch to dark mode"}
       className="
-        fixed bottom-[144px] right-6 z-50
-        w-12 h-12 rounded-full
+        fixed bottom-26 sm:bottom-[144px] right-2 sm:right-6 z-50
+        w-10 h-10 sm:w-12 sm:h-12 rounded-full
         flex items-center justify-center
         drop-shadow-2xl
         transition-all duration-300

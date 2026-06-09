@@ -149,7 +149,7 @@ const TestimonialModal = memo(({
           {/* Position */}
           <div>
            <label className="block text-sm font-medium text-black dark:text-white mb-1">
-              Position
+              Position/Company
             </label>
             <div className="relative">
               <i className="bx bx-briefcase absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
@@ -163,7 +163,7 @@ const TestimonialModal = memo(({
                     ? "border-red-500 focus:border-red-500"
                     : "border-black dark:border-white/20 focus:border-black dark:focus:border-white"
                 } bg-transparent text-black dark:text-white placeholder-gray-400 text-sm focus:outline-none focus:ring-1 focus:ring-black/20 dark:focus:ring-white/30 transition-colors`}
-                placeholder="HR, Developer, Designer, etc."
+                placeholder="HR, Developer, Designer, etc. Company"
               />
             </div>
             {errors.position && (

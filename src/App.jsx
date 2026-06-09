@@ -1,6 +1,6 @@
 import { lazy, Suspense, useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
-import LoadingSpinner from './components/LoadingSpinner';
+import Loading from './components/Loading';
 import DarkModeToggle from './components/DarkModeToggle';
 
 // Lazy load sections for better performance
@@ -21,26 +21,31 @@ function App() {
     const timer = setTimeout(() => {
       setIsLoading(false);
     }, 3000);
-
     return () => clearTimeout(timer);
   }, []);
 
   if (isLoading) {
-    return <LoadingSpinner />;
+    return <Loading/>;
   }
 
   return (
     <>
-      <Navbar />
-      <Suspense fallback={<LoadingSpinner />}>
-        <Home />
-        <About />
-        <Experience />
-        <Portfolio />
-        <Testimonials />
-        <Contact />
-        <Footer />
-        {/* Dark mode toggle sits above AIChatbot */}
+      {/* This wrapper clips the off-canvas menu's translated position */}
+      <div className="relative overflow-x-hidden">
+        <Navbar />
+        <Suspense fallback={<Loading />}>
+          <Home />
+          <About />
+          <Experience />
+          <Portfolio />
+          <Testimonials />
+          <Contact />
+          <Footer />
+        </Suspense>
+      </div>
+
+      {/* Fixed buttons outside the wrapper — never clipped */}
+      <Suspense fallback={null}>
         <DarkModeToggle />
         <AIChatbot />
         <ScrollToTop />

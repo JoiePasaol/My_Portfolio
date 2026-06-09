@@ -5,7 +5,7 @@ import { lazy, Suspense } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../components/ui/Card";
 import { Badge } from "../components/ui/Badge";
 import { Button } from "../components/ui/Button";
-import LoadingSpinner from "../components/LoadingSpinner";
+import LoadingSpinner from "../components/Loading.jsx";
 
 const ProjectModal = lazy(() => import("../components/ProjectModal"));
 
