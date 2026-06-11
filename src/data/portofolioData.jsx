@@ -10,6 +10,33 @@ export const portfolioData = {
 
   tabs: {
     projects: [
+
+        {
+        id: 11,
+        img: "/assets/project/Project11/F1-A.png",
+        images:[
+          "/assets/project/Project11/F1-A.png",
+          "/assets/project/Project11/F1-B.png",
+          "/assets/project/Project11/F1-C.png",
+          "/assets/project/Project11/F1-D.png",
+          "/assets/project/Project11/F2-A.png",
+          "/assets/project/Project11/F2-B.png",
+          "/assets/project/Project11/F2-C.png",
+          "/assets/project/Project11/F2-D.png",
+          "/assets/project/Project11/F2-E.png",
+          "/assets/project/Project11/F3-A.png",
+          "/assets/project/Project11/F3-B.png",
+          "/assets/project/Project11/F3-C.png",
+          "/assets/project/Project11/F4-D.png",
+          "/assets/project/Project11/F4-E.png",
+        ],
+        title: "Recent Forms Developed",
+        subtitle: "Client-Tailored Web Forms Built with Precision & Purpose",
+        desc: "A curated collection of web forms developed for various clients through the Form Developer Group (FDG). Each form was crafted to match client-specified field requirements, data structures, and design preferences — ensuring seamless database integration and intuitive user experience. Rigorous QA testing was conducted across all submissions to guarantee reliability and accuracy. Ongoing maintenance, bug fixes, and feature enhancements were applied based on client feedback, reflecting a commitment to delivering polished and dependable form solutions.",
+        demo: "#",
+        tags: ["HTML", "CSS", "JavaScript", "PHP", "MySQL", "Git"],
+      },
+
       {
         id: 1,
         img: "/assets/project/Project1/a.jpg",
@@ -266,6 +293,7 @@ export const portfolioData = {
         label: "Git",
         color: "#F05032",
       },
+
 
       {
         id: 16,
