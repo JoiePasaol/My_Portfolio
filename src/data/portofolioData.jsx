@@ -121,6 +121,8 @@ export const portfolioData = {
         demo: "#",
         tags: ["HTML", "CSS", "Bootstrap" , "Javascript", "Blade", "Laravel", "MySQL" , "XAMPP" , "Git"],
       },
+
+
       {
         id: 8,
         img: "/assets/project/Project6/a.png",
@@ -226,6 +228,13 @@ export const portfolioData = {
         icon: "bx bxl-typescript",
         label: "TypeScript",
         color: "#3178C6",
+      },
+
+      {
+        id: 17,
+        icon: "https://cdn.simpleicons.org/flutter/02569B",
+        label: "Flutter",
+        color: "#02569B",
       },
 
       {
