@@ -54,13 +54,13 @@ const Contact = memo(() => {
           </p>
         </div>
 
-        <div>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div className="w-full">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 w-full items-start">
 
             {/* Left Side: Social Links */}
-            <div className="grid gap-4 max-w-xl mx-auto lg:mx-0" data-aos-delay="600" data-aos="fade-right">
+            <div className="grid gap-4 w-full lg:max-w-xl lg:mx-0 mx-auto" data-aos-delay="600" data-aos="fade-right">
               {contactData.socials.map((item, index) => (
-                <a
+                <a    
                   key={index}
                   href={item.href}
                   target="_blank"
@@ -88,7 +88,7 @@ const Contact = memo(() => {
 
             {/* Right Side: Contact Form */}
             <div
-              className="rounded-lg py-12 px-7 shadow-lg border border-black dark:border-white/20 h-fit max-w-xl w-full mx-auto lg:mx-0"
+              className="rounded-lg py-12 px-7 shadow-lg border border-black dark:border-white/20 h-fit w-full lg:max-w-xl lg:mx-0 mx-auto"
               data-aos-delay="600"
               data-aos="fade-left"
             >
