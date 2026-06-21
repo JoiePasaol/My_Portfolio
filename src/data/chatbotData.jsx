@@ -38,15 +38,7 @@ Joie is a curious, adaptable, and growth-driven IT graduate passionate about the
 
 5. Web-Based Item Inventory System — Track, manage, and monitor items with ease. Features stock monitoring, quantity control, and item history logs. Tech: HTML, CSS, Tailwind, Laravel, React JS, Inertia JS, MySQL, Git, XAMPP.
 
-6. Security Essentials Project — Focuses on input validation, regex, and session management for secure web apps. Tech: HTML, CSS, Bootstrap, PHP, JavaScript, MySQL, XAMPP, Git.
-
-7. Digital Diary — CRUD-based personal note-keeping app for daily entries. Tech: HTML, CSS, Bootstrap, JavaScript, Blade, Laravel, MySQL, XAMPP, Git.
-
-8. CRUD and Session Management System — Teaches fundamentals of data handling and user session control. Tech: HTML, CSS, Bootstrap, JavaScript, Blade, Laravel, MySQL, XAMPP, Git.
-
-9. Interactive Web Layout Project — Frontend design and interactivity using only HTML, CSS, and JavaScript. No frameworks used.
-
-10. Photoshop and Figma — UI/UX design and visual prototyping. Includes wireframes, high-fidelity prototypes, and design using color theory, typography, and spacing. Tools: Figma, Adobe Photoshop.
+6. Photoshop and Figma — UI/UX design and visual prototyping. Includes wireframes, high-fidelity prototypes, and design using color theory, typography, and spacing. Tools: Figma, Adobe Photoshop.
 
 == TECH STACK ==
 Frontend: HTML, CSS, Tailwind, Bootstrap, JavaScript, TypeScript, React
