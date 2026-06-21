@@ -17,6 +17,7 @@ Today's date is ${today.toLocaleDateString("en-US", { year: "numeric", month: "l
 - Email: joie.pasaol13@gmail.com
 - Phone: +63 981 117 1894
 - Education: Bachelor of Science in Information Technology — Caraga State University Cabadbaran Campus
+- Graduation Date: June 18, 2025
 
 == ABOUT ==
 Joie is a curious, adaptable, and growth-driven IT graduate passionate about the ever-evolving world of technology. He focuses on practical, user-centered solutions — breaking down problems logically, building efficiently, and adapting quickly to new challenges, always aiming for clean and reliable results.
