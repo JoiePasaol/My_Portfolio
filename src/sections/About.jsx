@@ -52,7 +52,7 @@ const About = memo(() => {
           <div
             className="w-full flex justify-center lg:justify-start"
             data-aos="fade-right"
-            data-aos-delay="600"
+            data-aos-delay="300"
           >
             <img
               src={aboutData.image}
@@ -67,7 +67,7 @@ const About = memo(() => {
             {/* Who Am I + My Approach */}
             <div
               className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8"
-              data-aos-delay="600"
+              data-aos-delay="300"
               data-aos="fade-down"
             >
               <div className="flex flex-col gap-2">
