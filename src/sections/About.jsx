@@ -44,6 +44,8 @@ const About = memo(() => {
           />
         </header>
 
+        {/* Shared AOS anchor */}
+        <div id="about-anchor" />
 
         {/* Content Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 items-center min-h-[calc(100vh-5rem)] md:px-12">
@@ -51,8 +53,9 @@ const About = memo(() => {
           {/* Profile Image */}
           <div
             className="w-full flex justify-center lg:justify-start"
-            data-aos="fade-right"
+            data-aos="fade-up"
             data-aos-delay="300"
+            data-aos-anchor="#about-anchor"
           >
             <img
               src={aboutData.image}
@@ -67,8 +70,9 @@ const About = memo(() => {
             {/* Who Am I + My Approach */}
             <div
               className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8"
+              data-aos="fade-up"
               data-aos-delay="300"
-              data-aos="fade-down"
+              data-aos-anchor="#about-anchor"
             >
               <div className="flex flex-col gap-2">
                 <div className="flex items-center gap-2 mb-2">
@@ -94,8 +98,9 @@ const About = memo(() => {
             {/* Personal Info */}
             <div
               className="flex items-center gap-2 mb-4"
-              data-aos-delay="600"
-              data-aos="fade-down"
+              data-aos="fade-up"
+              data-aos-delay="500"
+              data-aos-anchor="#about-anchor"
             >
               <i className="bx bx-info-circle text-2xl text-black dark:text-white" aria-hidden="true"></i>
               <h2 className="text-2xl font-semibold text-black dark:text-white">Personal Info</h2>
@@ -103,8 +108,9 @@ const About = memo(() => {
 
             <ul
               className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8 max-w-lg mx-auto lg:mx-0"
-              data-aos-delay="600"
-              data-aos="fade-down"
+              data-aos="fade-up"
+              data-aos-delay="500"
+              data-aos-anchor="#about-anchor"
             >
               {aboutData.biodata.map((item, index) => (
                 <li key={index} className="flex items-center gap-4">
@@ -122,13 +128,14 @@ const About = memo(() => {
             {/* Resume Button */}
             <Tippy content="Download My CV">
               {aboutData.resume.href ? (
-                <a
+                
                   href={aboutData.resume.href}
                   download={aboutData.resume.download ? true : undefined}
                   className={resumeButtonClasses}
                   aria-label="Download CV"
-                  data-aos-delay="600"
-                  data-aos="fade-down"
+                  data-aos="fade-up"
+                  data-aos-delay="700"
+                  data-aos-anchor="#about-anchor"
                   style={{ transition: "all 300ms ease" }}
                   onMouseOver={(e) => { e.currentTarget.style.background = ""; e.currentTarget.style.color = ""; }}
                   onMouseOut={(e) =>  { e.currentTarget.style.background = ""; e.currentTarget.style.color = ""; }}
@@ -147,8 +154,9 @@ const About = memo(() => {
                   })}
                   className={resumeButtonClasses}
                   aria-label="Download CV"
-                  data-aos-delay="600"
-                  data-aos="fade-down"
+                  data-aos="fade-up"
+                  data-aos-delay="700"
+                  data-aos-anchor="#about-anchor"
                   style={{ transition: "all 300ms ease" }}
                   onMouseOver={(e) => { e.currentTarget.style.background = ""; e.currentTarget.style.color = ""; }}
                   onMouseOut={(e) =>  { e.currentTarget.style.background = ""; e.currentTarget.style.color = ""; }}
