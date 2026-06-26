@@ -215,6 +215,13 @@ export const portfolioData = {
       },
 
       {
+        id: 22,
+        icon: "https://cdn.simpleicons.org/wordpress/21759B",
+        label: "WordPress",
+        color: "#21759B",
+      },
+
+      {
         id: 11,
         icon: "https://cdn.simpleicons.org/inertia/9553E9",
         label: "Inertia.js",
@@ -238,6 +245,7 @@ export const portfolioData = {
         id: 15,
         icon: "https://cdn.simpleicons.org/mysql/4479A1",
       },
+
 
       {
         id: 13,

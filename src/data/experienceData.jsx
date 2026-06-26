@@ -13,7 +13,7 @@ const experienceData = [
       "Worked closely with clients and team members to deliver reliable and efficient web solutions.",
     ],
     galleryImages: [
-      "/assets/about/NoAvailable.webp",
+      "/assets/about/d.jpg",
       "/assets/about/NoAvailable.webp",
       "/assets/about/NoAvailable.webp",
     ],
