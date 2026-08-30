@@ -131,7 +131,7 @@ const AIChatbot = memo(() => {
             "Authorization": `Bearer ${import.meta.env.VITE_GROQ_API_KEY}`,
           },
           body: JSON.stringify({
-            model: "llama-3.1-8b-instant",
+            model: "openai/gpt-oss-20b",
             messages: [
               { role: "system", content: SYSTEM_PROMPT },
               ...historyMessages,

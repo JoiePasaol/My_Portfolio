@@ -6,7 +6,7 @@ const homeData = {
     "Graphic Designer",
     "Video Editor",
   ],
-  description: "Motivatedd and detail oriented with a strong passion for creating impactful digital solutions. Known for a proactive mindset, quick learning ability, and a commitment to delivering high quality work. Skilled at solving problems, adapting to new challenges, and collaborating effectively within teams. Eager to contribute value, grow continuously, and exceed expectations in every opportunity. Invest in my potential, and you'll be investing in adaptability, growth, and relentless curiosity.",
+  description: "Motivated and detail oriented with a strong passion for creating impactful digital solutions. Known for a proactive mindset, quick learning ability, and a commitment to delivering high quality work. Skilled at solving problems, adapting to new challenges, and collaborating effectively within teams. Eager to contribute value, grow continuously, and exceed expectations in every opportunity. Invest in my potential, and you'll be investing in adaptability, growth, and relentless curiosity.",
 
   img: "/assets/profile.jpg",
   buttons: [
