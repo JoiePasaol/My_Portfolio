@@ -141,6 +141,13 @@ const AIChatbot = memo(() => {
         });
 
         const data = await response.json();
+
+        if (!response.ok) {
+        console.error("Groq API error:", data);
+        throw new Error(data.error?.message || "API request failed");
+      }
+
+
         const reply = data.choices?.[0]?.message?.content ?? "Sorry, I couldn't respond. Try again!";
 
         setMessages((prev) => [...prev, { role: "model", content: reply }]);
