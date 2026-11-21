@@ -1,23 +1,20 @@
 const experienceData = [
-  {
-    title: "Web Developer - FDG (Form Developer Group)",
-    company: "Proweaver, Inc.",
-    period: "December 2025 – Present",
-    subtitle: "Developed and customized web forms based on client-provided field labels, requirements, and preferred designs.",
-    bullets: [
-      "Ensured accurate data handling and database integration for form submissions.",
-      "Collaborated with the Form Developer Group (FDG) to build functional and user-friendly form solutions.",
-      "Performed Quality Assurance (QA) testing to ensure client websites and forms functioned properly across workflows.",
-      "Maintained and troubleshot client websites by identifying and fixing bugs and technical issues.",
-      "Implemented new website features and enhancements based on client feedback and suggestions.",
-      "Worked closely with clients and team members to deliver reliable and efficient web solutions.",
-    ],
-    galleryImages: [
-      "/assets/about/d.jpg",
-      "/assets/about/NoAvailable.webp",
-      "/assets/about/NoAvailable.webp",
-    ],
-  },
+{
+  title: "WordPress Developer",
+  company: "Proweaver, Inc.",
+  period: "December 2025 – Present",
+  subtitle: "Developed, customized, and maintained WordPress websites by implementing client requirements, optimizing website functionality, and creating responsive, user-friendly web solutions.",
+  bullets: [
+    "Developed and customized WordPress websites based on client requirements, design preferences, and business objectives.",
+    "Customized WordPress themes, page layouts, and website components to achieve the desired design and functionality.",
+    "Managed website content, pages, plugins, and configurations to ensure smooth website operations.",
+    "Troubleshot and resolved website issues, including layout inconsistencies, plugin conflicts, and functional errors.",
+    "Performed Quality Assurance (QA) testing to ensure website responsiveness, usability, and compatibility across different browsers and devices.",
+    "Implemented website enhancements, feature updates, and design improvements based on client feedback.",
+    "Maintained website performance, functionality, and overall reliability through regular checks and troubleshooting.",
+    "Collaborated with clients and team members to deliver functional, responsive, and reliable WordPress solutions."
+  ]
+},
   {
     title: "Web Developer Intern",
     company: "eComia",
